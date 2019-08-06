@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<begin DP_HTML_PRESENTATION="1" account="abcdefg" chksum="341c65045ace57def28f88b397c913f3" content_type="application/pdf" correlationid="4FC19F8D54496C321CC2F71EE63FEC71_1507550477135" filename="test02.pdf.txtorin" lang="english" ocr_policy="never" source="application/pdf" useoutputenc="utf-8-strict" username="abcdefg">
+   <name>foo</name> some text <name>bar</name>
+   <item>2010-2012  New York, US, <jobtitle>java developer</jobtitle></item>
+   <item><experiencedate>May 1997-Sept 1997</experiencedate>: <experienceorgplace><experienceorg>NEW ZEALAND WHEELS</experienceorg> (<experienceplace>New Zealand</experienceplace>)</experienceorgplace>
+   Job Description: <expdescription><experience>Toolmaker</experience>, making of die cast tooling (lathes, mills, spark eroders etc.)</expdescription>
+   reason for leaving: <quitreason>company went into receivership</quitreason></item>
+   <address>bbbbbb aaaaa</address>
+</begin>

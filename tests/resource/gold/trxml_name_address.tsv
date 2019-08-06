@@ -1,0 +1,4 @@
+filename	name.0.name	address.0.address
+t/test-cvs/foo1.doc	Foo1 Bar1, BA.	11111 Some Street, Calgary, Canada
+t/test-cvs/foo2.doc	Foo2 Bar2	Somegatan 11A, Stockholm, Sweden
+t/test-cvs/foo3.pdf	Foo3 Bar3	

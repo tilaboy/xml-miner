@@ -1,0 +1,8 @@
+filename	experienceitem	experience	experienceorgplace
+t/test-cvs/foo1.doc	0	Supervisor Human Resources	Company ABC, Mississauga, ON
+t/test-cvs/foo1.doc	1	Consultant Logistics	Company DEF, Mississauga, ON
+t/test-cvs/foo2.doc	0	Business consultant	ABC Consultant group
+t/test-cvs/foo2.doc	1	Senior Project manager	DEF Consultant group
+t/test-cvs/foo3.pdf	0	Global Communications officer	FREELANCE PROJECTS
+t/test-cvs/foo3.pdf	1	Manager, Organisational Identity and Brand Management	ABC.com EUROPE, Amsterdam
+t/test-cvs/foo3.pdf	2	Senior Consultant	DEF Steel BV. London

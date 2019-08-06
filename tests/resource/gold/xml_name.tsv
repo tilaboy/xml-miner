@@ -1,0 +1,8 @@
+filename	value
+test01.pdf.txtorin	bar
+test02.pdf.txtorin	foo
+test02.pdf.txtorin	bar
+test03.pdf.txtorin	first name
+test03.pdf.txtorin	second name
+test03.pdf.txtorin	third__NEWLINE__          name
+test03.pdf.txtorin	'fourth ''name'''

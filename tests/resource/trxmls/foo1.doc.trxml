@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<TextractorResult user="1" lang="english" content_type="application/msword" source="application/msword"><Document content_type="application/msword" filename="t/test-cvs/foo1.doc" id="17" iscv="yes" lang="english" path="standard" source="application/msword">
+
+<personalsec id="3">PERSONAL DETAILS
+
+<name id="239" type="tnt"><firstname id="122">Foo1</firstname> Bar1, BA.</name>
+Address: <address id="131">11111 Some Street, Calgary,
+Canada</address>
+Home phone: <phonehome id="235">(123) 456-7890</phonehome>
+</personalsec>
+
+<experiencesec id="7">WORK EXPERIENCE
+<experienceitem id="87" link="110 118 106 114 241 242"><experiencedate id="106" link="87">June 2007 - June 2010</experiencedate>
+<experienceorgplace id="114" link="87"><exporganization id="241" link="87">Company ABC,</exporganization> <expplace id="242" link="87">Mississauga, ON</expplace></experienceorgplace>
+Function: <experience id="110" link="87">Supervisor Human Resources</experience>
+</experienceitem>
+
+<experienceitem id="89" link="111 119 107 115 243 244"><experiencedate id="107" link="89">May 2005 - June 2007</experiencedate>
+<experienceorgplace id="115" link="89"><exporganization id="243" link="89">Company DEF,</exporganization> <expplace id="244" link="89">Mississauga, ON</expplace></experienceorgplace>
+Function: <experience id="111" link="89">Consultant Logistics</experience>
+</experienceitem>
+</experiencesec></Document>
+<DocumentStructure>
+	<ItemGroup count="1" key="Document">
+		<Item index="0">
+			<Field key="content_type"><Value>application/msword</Value></Field>
+			<Field key="debug"><Value></Value></Field>
+			<Field key="filename"><Value>t/test-cvs/foo1.doc</Value></Field>
+			<Field key="id"><Value>17</Value></Field>
+			<Field key="iscv"><Value>yes</Value></Field>
+			<Field key="lang"><Value>english</Value></Field>
+			<Field key="path"><Value>standard</Value></Field>
+			<Field key="source"><Value>application/msword</Value></Field>
+		</Item>
+	</ItemGroup>
+	<ItemGroup count="1" key="address">
+		<Item index="0">
+			<Field key="address" docCoords="6.9-7.26" docMarkupId="131"><Value>11111 Some Street, Calgary, Canada</Value></Field>
+			<Field key="country" docCoords="6.9-7.26" docMarkupId="131"><Value>Canada</Value></Field>
+		</Item>
+	</ItemGroup>
+	<ItemGroup count="4" key="experienceitem">
+		<Item index="0">
+			<Field key="experience" docCoords="24.10-24.36" docMarkupId="110"><Value>Supervisor Human Resources</Value></Field>
+			<Field key="experiencedate" docCoords="22.0-22.21" docMarkupId="106"><Value>June 2007 - June 2010</Value></Field>
+			<Field key="experienceorgplace" docCoords="23.0-23.35" docMarkupId="114"><Value>Company ABC, Mississauga, ON</Value></Field>
+			<Field key="extra_1" docCoords="23.0-23.35" docMarkupId="114"><Value>foo, bar</Value></Field>
+		</Item>
+		<Item index="1">
+			<Field key="experience" docCoords="35.10-35.30" docMarkupId="111"><Value>Consultant Logistics</Value></Field>
+			<Field key="experiencedate" docCoords="33.0-33.20" docMarkupId="107"><Value>May 2005 - June 2007</Value></Field>
+			<Field key="experienceorgplace" docCoords="34.0-34.46" docMarkupId="115"><Value>Company DEF, Mississauga, ON</Value></Field>
+			<Field key="extra_2" docCoords="23.0-23.35" docMarkupId="114"><Value>bar, foo</Value></Field>
+		</Item>
+	</ItemGroup>
+	<ItemGroup count="1" key="name">
+		<Item index="0">
+			<Field key="lastname" docCoords="5.0-5.24" docMarkupId="239"><Value>Bar1</Value></Field>
+			<Field key="givenname" docCoords="5.0-5.24" docMarkupId="239"><Value>Foo1</Value></Field>
+			<Field key="name" docCoords="5.0-5.24" docMarkupId="239"><Value>Foo1 Bar1, BA.</Value></Field>
+		</Item>
+	</ItemGroup>
+	<ItemGroup count="1" key="phonehome">
+		<Item index="0">
+			<Field key="phonehome" docCoords="8.12-8.26" docMarkupId="235"><Value>(123) 456-7890</Value></Field>
+		</Item>
+	</ItemGroup>
+</DocumentStructure>
+</TextractorResult>

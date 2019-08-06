@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<TextractorResult user="1" lang="english" content_type="application/msword" source="application/msword"><Document content_type="application/msword" filename="t/test-cvs/foo3.pdf" id="17" iscv="yes" lang="english" path="standard" source="application/msword">
+
+<personalsec id="3"><name id="287" type="tnt"><firstname id="208">Foo3</firstname> Bar3</name>
+</personalsec>
+<experiencesec id="7">PROFESSIONAL EXPERIENCE
+
+<experienceitem id="122" link="165 182 183 157 173 174 291 293 292"><experiencedate id="157" link="122">2007-present</experiencedate>      <experienceorgplace id="173" link="122"><exporganization id="291" link="122">FREELANCE PROJECTS</exporganization></experienceorgplace>
+
+            <experience id="165" link="122">Global Communications officer</experience>,
+</experienceitem>
+<experienceitem id="124" link="166 184 185 186 187 158 175 294 295"><experiencedate id="158" link="124">2000 - 2005</experiencedate>      <experienceorgplace id="175" link="124"><exporganization id="294" link="124">ABC.com EUROPE,</exporganization> <expplace id="295" link="124">Amsterdam</expplace></experienceorgplace>
+            <experience id="166" link="124">Manager, Organisational Identity and Brand Management</experience>
+</experienceitem>
+<experienceitem id="126" link="167 188 159 176 296 297"><experiencedate id="159" link="126">1996-2000</experiencedate>      <experienceorgplace id="176" link="126"><exporganization id="296" link="126">DEF Steel BV.</exporganization> <expplace id="297" link="126">London</expplace></experienceorgplace>
+            <experience id="167" link="126">Senior Consultant</experience>
+</experienceitem>
+</experiencesec></Document>
+<DocumentStructure>
+	<ItemGroup count="1" key="Document">
+		<Item index="0">
+			<Field key="content_type"><Value>application/msword</Value></Field>
+			<Field key="debug"><Value></Value></Field>
+			<Field key="filename"><Value>t/test-cvs/foo3.pdf</Value></Field>
+			<Field key="id"><Value>17</Value></Field>
+			<Field key="iscv"><Value>yes</Value></Field>
+			<Field key="lang"><Value>english</Value></Field>
+			<Field key="path"><Value>standard</Value></Field>
+			<Field key="source"><Value>application/msword</Value></Field>
+		</Item>
+	</ItemGroup>
+	<ItemGroup count="4" key="experienceitem">
+		<Item index="0">
+			<Field key="experience" docCoords="24.10-24.36" docMarkupId="110"><Value>Global Communications officer</Value></Field>
+			<Field key="experiencedate" docCoords="22.0-22.21" docMarkupId="106"><Value>2007-present</Value></Field>
+			<Field key="experienceorgplace" docCoords="23.0-23.35" docMarkupId="114"><Value>FREELANCE PROJECTS</Value></Field>
+		</Item>
+		<Item index="1">
+			<Field key="experience" docCoords="35.10-35.30" docMarkupId="111"><Value>Manager, Organisational Identity and Brand Management</Value></Field>
+			<Field key="experiencedate" docCoords="33.0-33.20" docMarkupId="107"><Value>2000 - 2005</Value></Field>
+			<Field key="experienceorgplace" docCoords="34.0-34.46" docMarkupId="115"><Value>ABC.com EUROPE, Amsterdam</Value></Field>
+		</Item>
+    <Item index="2">
+			<Field key="experience" docCoords="35.10-35.30" docMarkupId="111"><Value>Senior Consultant</Value></Field>
+			<Field key="experiencedate" docCoords="33.0-33.20" docMarkupId="107"><Value>1996-2000</Value></Field>
+			<Field key="experienceorgplace" docCoords="34.0-34.46" docMarkupId="115"><Value>DEF Steel BV. London</Value></Field>
+		</Item>
+	</ItemGroup>
+	<ItemGroup count="1" key="name">
+		<Item index="0">
+			<Field key="lastname" docCoords="5.0-5.24" docMarkupId="239"><Value>Bar3</Value></Field>
+			<Field key="givenname" docCoords="5.0-5.24" docMarkupId="239"><Value>Foo3</Value></Field>
+			<Field key="name" docCoords="5.0-5.24" docMarkupId="239"><Value>Foo3 Bar3</Value></Field>
+		</Item>
+	</ItemGroup>
+</DocumentStructure>
+</TextractorResult>

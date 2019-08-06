@@ -1,0 +1,23 @@
+<begin DP_HTML_PRESENTATION="1" account="abcdefg" chksum="341c65045ace57def28f88b397c913f3" content_type="application/pdf" correlationid="4FC19F8D54496C321CC2F71EE63FEC71_1507550477135" filename="test01.pdf.txtorin" id="1" lang="english" ocr_policy="never" source="application/pdf" useoutputenc="utf-8-strict" username="abcdefg">
+   foo <name>bar</name>
+</begin>
+<begin DP_HTML_PRESENTATION="1" account="abcdefg" chksum="341c65045ace57def28f88b397c913f3" content_type="application/pdf" correlationid="4FC19F8D54496C321CC2F71EE63FEC71_1507550477135" filename="test02.pdf.txtorin" id="1" lang="english" ocr_policy="never" source="application/pdf" useoutputenc="utf-8-strict" username="abcdefg">
+   <name>foo</name> some text <name>bar</name>
+   <address>bbbbbb aaaaa</address>
+</begin>
+<begin DP_HTML_PRESENTATION="1" account="abcdefg" chksum="341c65045ace57def28f88b397c913f3" content_type="application/pdf" correlationid="4FC19F8D54496C321CC2F71EE63FEC71_1507550477135" filename="test03.pdf.txtorin" id="1" lang="english" ocr_policy="never" source="application/pdf" useoutputenc="utf-8-strict" username="abcdefg">
+   <personalsec>some other text
+       <other_tags>
+          <name>first name</name>
+          some text
+          <name>second name</name>
+          <address>1021AB Amsterdam</address>
+        </other_tags>
+      </personalsec>
+      <othersec>
+        <name>third
+          name</name>
+      </othersec>
+      <name>fourth 'name'</name>
+      <address>The Netherlands</address>
+</begin>

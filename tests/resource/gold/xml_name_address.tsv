@@ -1,0 +1,11 @@
+filename	value	field
+test01.pdf.txtorin	bar	name
+test02.pdf.txtorin	foo	name
+test02.pdf.txtorin	bar	name
+test02.pdf.txtorin	bbbbbb aaaaa	address
+test03.pdf.txtorin	first name	name
+test03.pdf.txtorin	second name	name
+test03.pdf.txtorin	third__NEWLINE__          name	name
+test03.pdf.txtorin	'fourth ''name'''	name
+test03.pdf.txtorin	1021AB Amsterdam	address
+test03.pdf.txtorin	The Netherlands	address
