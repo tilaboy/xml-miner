@@ -1,7 +1,7 @@
 """XML Selectors class"""
 from typing import List
 from .selector_utils import selector_attribute, SELECTOR_TYPE
-from .xml_miner import XMLSelector
+from .xml_selector import XMLSelector
 
 
 class XMLSelectors():

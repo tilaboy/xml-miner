@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from os.path import isfile, isdir
 from .data_utils import DataLoader
 from .selectors import XMLSelectors
-from .selector_processor import XMLProcessor
+from .miner import XMLMiner
 from . import LOGGER
 
 def get_args():
@@ -67,13 +67,13 @@ def main():
         selectors.selector_string,
         args.output_file
     )
-    xml_processor = XMLProcessor(
+    xml_miner = XMLMiner(
         data,
         selectors,
         args.output_file,
         args.with_field_name
     )
-    xml_processor.process()
+    xml_miner.mine()
 
 
 if __name__ == "__main__":

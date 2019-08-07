@@ -3,7 +3,7 @@ from typing import List
 import xml.etree.ElementTree as ET
 from .data_utils import DataSaver
 from .xml import TKXML, TKTRXML
-from .selectors import TRXML_MINER_TYPE
+from .selectors import TRXML_SELECTOR_TYPE
 from . import LOGGER
 
 def _normalize_string(line: str) -> str:
@@ -17,9 +17,9 @@ def _normalize_string(line: str) -> str:
     return line
 
 
-class CommonProcessor:
+class CommonMiner:
     '''
-    CommonProcessor:
+    CommonMiner:
 
     shared class for both xml and trxml
     '''
@@ -27,7 +27,7 @@ class CommonProcessor:
         '''
         params:
             data (xml document_loader): a data generator loop through all xmls
-            selectors (XMLSelectors): see xml_miner.py
+            selectors (XMLSelectors): see xml_selector.py
             output_file (string): the output filename
             with_field_name: add a column to show the field_name of extracted value
         output:
@@ -51,7 +51,7 @@ class CommonProcessor:
                 LOGGER.info("- found %d %s", self.value_counter[field], field)
 
 
-class XMLProcessor(CommonProcessor):
+class XMLMiner(CommonMiner):
     '''
     XMLPorcessor:
     - iterate over the xml files and select values
@@ -61,7 +61,7 @@ class XMLProcessor(CommonProcessor):
         '''
         params:
             data (xml document_loader): a data generator loop through all xmls
-            selectors (XMLSelectors): see xml_miner.py
+            selectors (XMLSelectors): see xml_selector.py
             output_file (string): the output filename
             with_field_name: add a column to show the field_name of extracted value
         output:
@@ -90,7 +90,7 @@ class XMLProcessor(CommonProcessor):
 
 
 
-    def process(self):
+    def mine(self):
         """
         iterate the input data (xml obj), apply selector on each xml, and save
         the selected values to the output file
@@ -119,7 +119,7 @@ class XMLProcessor(CommonProcessor):
         self.writer.close_stream()
 
 
-class TRXMLProcessor(CommonProcessor):
+class TRXMLMiner(CommonMiner):
     '''
     TRXMLPorcessor:
     - iterate over the trxml files and select values
@@ -127,7 +127,7 @@ class TRXMLProcessor(CommonProcessor):
     '''
 
     def _print_header(self) -> List[str]:
-        if self.selectors.trxml_miner_type == TRXML_MINER_TYPE['MULTIPLE']:
+        if self.selectors.trxml_selector_type == TRXML_SELECTOR_TYPE['MULTIPLE']:
             field_names = [selector.field_name for selector in self.selectors]
             header = ["filename", self.selectors.shared_itemgroup_name] + field_names
         else:
@@ -145,7 +145,7 @@ class TRXMLProcessor(CommonProcessor):
                 self.value_counter[field_name] += 1
         return norm_values
 
-    def process(self):
+    def mine(self):
         """
         iterate the input data (trxml obj), apply selector on each trxml, and output
         the selected values to a csv file
@@ -153,7 +153,7 @@ class TRXMLProcessor(CommonProcessor):
         params:
             data (trxml document_loader): contains a data generator loop
             through all input data
-            selectors(TRXMLSectors): see trxml_miner.py
+            selectors(TRXMLSectors): see trxml_selector.py
             output_file (string): the output filename
         """
         self._init_counter()
@@ -169,7 +169,7 @@ class TRXMLProcessor(CommonProcessor):
             self.num_docs += 1
             selected_values = self.selectors.select_trxml_fields(trxml_obj)
 
-            if self.selectors.trxml_miner_type == TRXML_MINER_TYPE['MULTIPLE']:
+            if self.selectors.trxml_selector_type == TRXML_SELECTOR_TYPE['MULTIPLE']:
                 for item_index in selected_values:
                     norm_values = self._normalize_record_values(selected_values[item_index])
                     self.writer.store([trxml_obj.filename, item_index] + norm_values)

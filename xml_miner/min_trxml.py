@@ -4,7 +4,7 @@ from os.path import isfile, isdir
 from argparse import ArgumentParser
 from .data_utils import DataLoader
 from .selectors import TRXMLSelectors
-from .selector_processor import TRXMLProcessor
+from .miner import TRXMLMiner
 from . import LOGGER
 
 def get_args():
@@ -60,8 +60,8 @@ def main():
         selectors.selector_string,
         args.output_file
     )
-    trxml_processor = TRXMLProcessor(data, selectors, args.output_file)
-    trxml_processor.process()
+    trxml_miner = TRXMLMiner(data, selectors, args.output_file)
+    trxml_miner.mine()
 
 if __name__ == "__main__":
     main()

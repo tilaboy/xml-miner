@@ -4,11 +4,11 @@ import re
 import socket
 from .. import LOGGER
 
+
 class ASClient:
     """Python version of annotation server client"""
     BUFFER_SIZE = 2 * 1024
     ENCODING = 'utf-8'
-
 
     def __init__(self, host: str, port: str, as_user: str = '', as_pass: str = ''):
         """

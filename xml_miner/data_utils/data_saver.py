@@ -5,13 +5,13 @@ import sys
 import csv
 import json
 
+
 class DataSaver:
     """
     DataLoader:
     - open/create targed output file
     - save the selected values to file with corresponding format
     """
-
 
     def __init__(self, output_file):
         if output_file is 'STDOUT':
