@@ -2,7 +2,8 @@
 import os
 from unittest import TestCase
 from unittest import TestResult
-from xml_miner.selectors.selector_utils import *
+from xml_miner.selectors.selector_utils import valid_field_name, selector_attribute
+from xml_miner.selectors.selector_utils import SELECTOR_TYPE, TRXML_SELECTOR_TYPE
 from xml_miner.selectors import TRXMLSelectors, XMLSelectors
 
 class SelectorXMLTestCases(TestCase):
@@ -39,17 +40,17 @@ class SelectorXMLTestCases(TestCase):
             SELECTOR_TYPE['TRXML']
         )
 
-    def test_trxml_miner_type_attribute(self):
+    def test_trxml_selector_type_attribute(self):
         selectors = TRXMLSelectors.from_selector_string('foo.0.foo,bar.0.bar')
         self.assertEqual(
-            selector_attribute(selectors.selectors, 'trxml_miner_type'),
-            TRXML_MINER_TYPE['SINGLETON']
+            selector_attribute(selectors.selectors, 'trxml_selector_type'),
+            TRXML_SELECTOR_TYPE['SINGLETON']
         )
 
         selectors = TRXMLSelectors.from_selector_string('foo.*.foo,foo.*.bar')
         self.assertEqual(
-            selector_attribute(selectors.selectors, 'trxml_miner_type'),
-            TRXML_MINER_TYPE['MULTIPLE']
+            selector_attribute(selectors.selectors, 'trxml_selector_type'),
+            TRXML_SELECTOR_TYPE['MULTIPLE']
         )
 
         try:

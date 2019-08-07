@@ -1,6 +1,6 @@
 '''selector class for trxml'''
 
-from .xml_miner import XMLSelector
+from .xml_selector import XMLSelector
 
 class TRXMLSelector(XMLSelector):
     '''
@@ -14,11 +14,11 @@ class TRXMLSelector(XMLSelector):
     def __init__(self, selector: str):
         super().__init__(selector)
         self.itemgroup_name, self.item_index, self.field_name = \
-        self.parse_trxml_miner()
-        self.xpath = self._trxml_miner_to_xpath()
+        self.parse_trxml_selector()
+        self.xpath = self._trxml_selector_to_xpath()
 
 
-    def parse_trxml_miner(self):
+    def parse_trxml_selector(self):
         '''
         converting the trxml selector to (itemgroup, index, field):
 
@@ -65,7 +65,7 @@ class TRXMLSelector(XMLSelector):
         """convert the item with index to the xpath"""
         return f"/Item[@index='{self.item_index}']/"
 
-    def _trxml_miner_to_xpath(self) -> str:
+    def _trxml_selector_to_xpath(self) -> str:
         """convert a full trxml selector to the xpath"""
         return self._itemgroup_xpath() + self._item_xpath() + self._field_xpath()
 

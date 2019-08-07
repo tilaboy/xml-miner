@@ -1,8 +1,8 @@
 """TRXML Selectors class"""
 from typing import List
 from .selector_utils import valid_field_name, selector_attribute
-from .selector_utils import SELECTOR_TYPE, TRXML_MINER_TYPE
-from .trxml_miner import TRXMLSelector
+from .selector_utils import SELECTOR_TYPE, TRXML_SELECTOR_TYPE
+from .trxml_selector import TRXMLSelector
 
 class TRXMLSelectors():
     '''
@@ -12,7 +12,7 @@ class TRXMLSelectors():
     '''
 
 
-    def __init__(self, selectors: List[str], trxml_miner_type=None,
+    def __init__(self, selectors: List[str], trxml_selector_type=None,
                  shared_itemgroup_name=None):
 
         self.selector_string = ",".join(selectors)
@@ -32,13 +32,13 @@ class TRXMLSelectors():
                 For xml, please use xml-miner
                 """)
 
-        if trxml_miner_type is None:
-            self.trxml_miner_type = \
-            selector_attribute(self.selectors, 'trxml_miner_type')
+        if trxml_selector_type is None:
+            self.trxml_selector_type = \
+            selector_attribute(self.selectors, 'trxml_selector_type')
         else:
-            self.trxml_miner_type = trxml_miner_type
+            self.trxml_selector_type = trxml_selector_type
 
-        if self.trxml_miner_type == TRXML_MINER_TYPE['MULTIPLE']:
+        if self.trxml_selector_type == TRXML_SELECTOR_TYPE['MULTIPLE']:
             if shared_itemgroup_name is None:
                 self.shared_itemgroup_name = \
                 selector_attribute(self.selectors, 'same_itemgroup')
@@ -74,13 +74,13 @@ class TRXMLSelectors():
 
         return cls(
             [f"{itemgroup}.*.{field}" for field in fields.split(",")],
-            TRXML_MINER_TYPE['MULTIPLE'],
+            TRXML_SELECTOR_TYPE['MULTIPLE'],
             itemgroup
         )
 
     def select_trxml_fields(self, trxml):
         '''select values from all fields matching selectors'''
-        if self.trxml_miner_type == TRXML_MINER_TYPE['SINGLETON']:
+        if self.trxml_selector_type == TRXML_SELECTOR_TYPE['SINGLETON']:
             selected = self._select_singletons(trxml)
         else:
             selected = self._select_multiple_items(trxml)
@@ -97,7 +97,7 @@ class TRXMLSelectors():
             2:.....
         }
         '''
-        if self.trxml_miner_type != TRXML_MINER_TYPE['MULTIPLE']:
+        if self.trxml_selector_type != TRXML_SELECTOR_TYPE['MULTIPLE']:
             raise ValueError("selector for _select_multiple_items should \
             be multiple value selectors")
 
@@ -133,7 +133,7 @@ class TRXMLSelectors():
         }
 
         '''
-        if self.trxml_miner_type != TRXML_MINER_TYPE['SINGLETON']:
+        if self.trxml_selector_type != TRXML_SELECTOR_TYPE['SINGLETON']:
             raise ValueError("selectors for select singletons should be \
             single value selectors")
         return {

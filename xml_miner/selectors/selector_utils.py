@@ -4,7 +4,7 @@ import re
 
 RE_ALPHA = re.compile(r'\w')
 SELECTOR_TYPE = {'XML':'xml', 'TRXML':'trxml'}
-TRXML_MINER_TYPE = {'SINGLETON':'singleton', 'MULTIPLE':'multiple'}
+TRXML_SELECTOR_TYPE = {'SINGLETON':'singleton', 'MULTIPLE':'multiple'}
 
 def valid_field_name(tag_name: str = '') -> bool:
     '''
@@ -32,9 +32,9 @@ def _selector_target_type(selector) -> str:
 def _selector_singleton_type(selector) -> bool:
     item_index = selector.item_index
     if item_index.isdigit():
-        selector_type = TRXML_MINER_TYPE['SINGLETON']
+        selector_type = TRXML_SELECTOR_TYPE['SINGLETON']
     else:
-        selector_type = TRXML_MINER_TYPE['MULTIPLE']
+        selector_type = TRXML_SELECTOR_TYPE['MULTIPLE']
     return selector_type
 
 def _selector_same_itemgroup(selector) -> str:
@@ -53,7 +53,7 @@ def selector_attribute(selectors, attribute_name) -> str:
     '''
     if attribute_name == 'selector_type':
         result = _selector_attribute_checking(selectors, _selector_target_type)
-    elif attribute_name == 'trxml_miner_type':
+    elif attribute_name == 'trxml_selector_type':
         result = _selector_attribute_checking(selectors, _selector_singleton_type)
     elif attribute_name == 'same_itemgroup':
         result = _selector_attribute_checking(selectors, _selector_same_itemgroup)

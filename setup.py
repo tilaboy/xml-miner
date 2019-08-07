@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 NAME = "xml_miner"
-VERSION = os.environ.get("XML_MINER_VERSION", "0.0.7")
+VERSION = os.environ.get("XML_MINER_VERSION", "0.0.1")
 
 setup(
     name=NAME,

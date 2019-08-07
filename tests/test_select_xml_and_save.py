@@ -4,7 +4,7 @@ import shutil
 import tempfile
 import filecmp
 from unittest import TestCase
-from xml_miner.selector_processor import XMLProcessor
+from xml_miner.miner import XMLMiner
 from xml_miner.selectors import XMLSelectors
 from xml_miner.data_utils import DataLoader
 
@@ -13,8 +13,8 @@ class XmlTestCases(TestCase):
     def setUp(self):
         self.xmls_dir = 'tests/resource/xmls'
         self.mxml_file = 'tests/resource/simple.mxml'
-        self.gold_name_file = 'tests/resource/xml_name.tsv'
-        self.gold_name_address_file = 'tests/resource/xml_name_address.tsv'
+        self.gold_name_file = 'tests/resource/gold/xml_name.tsv'
+        self.gold_name_address_file = 'tests/resource/gold/xml_name_address.tsv'
         self.test_dir = tempfile.mkdtemp()
 
     def tearDown(self):
@@ -26,8 +26,8 @@ class XmlTestCases(TestCase):
         data_generator = DataLoader.load_from_dir(self.xmls_dir)
         eval_filename = os.path.join(self.test_dir, 'from_dir.csv')
         selectors = XMLSelectors(["name"])
-        xml_processor = XMLProcessor(data_generator, selectors, eval_filename)
-        xml_processor.process()
+        xml_miner = XMLMiner(data_generator, selectors, eval_filename)
+        xml_miner.mine()
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_file,
@@ -39,8 +39,8 @@ class XmlTestCases(TestCase):
         data_generator = DataLoader.load_from_mxml(self.mxml_file)
         eval_filename = os.path.join(self.test_dir, 'from_mxml.csv')
         selectors = XMLSelectors(["name"])
-        xml_processor = XMLProcessor(data_generator, selectors, eval_filename)
-        xml_processor.process()
+        xml_miner = XMLMiner(data_generator, selectors, eval_filename)
+        xml_miner.mine()
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_file,
@@ -52,13 +52,13 @@ class XmlTestCases(TestCase):
         data_generator = DataLoader.load_from_mxml(self.mxml_file)
         eval_filename = os.path.join(self.test_dir, 'from_mxml.csv')
         selectors = XMLSelectors(["name", "address"])
-        xml_processor = XMLProcessor(
+        xml_miner = XMLMiner(
             data_generator,
             selectors,
             eval_filename,
             with_field_name=True
         )
-        xml_processor.process()
+        xml_miner.mine()
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_address_file,

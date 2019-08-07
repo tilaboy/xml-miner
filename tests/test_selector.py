@@ -3,7 +3,7 @@ import os
 from unittest import TestCase
 from unittest import TestResult
 from xml_miner.selectors import XMLSelectors, TRXMLSelectors
-from xml_miner.selectors.trxml_miner import TRXMLSelector
+from xml_miner.selectors.trxml_selector import TRXMLSelector
 from xml_miner.xml import TKXML, TKTRXML
 
 class SelectorsXMLTestCases(TestCase):
@@ -150,7 +150,7 @@ class SelectorsTRXMLTestCases(TestCase):
 
 class SelectorTRXMLTestCases(TestCase):
     """unit tests to select values from xml files or strings"""
-    def test_parse_trxml_miner(self):
+    def test_parse_trxml_selector(self):
         cases = [
             {
                 'input':'foo.4.bar',
@@ -174,7 +174,7 @@ class SelectorTRXMLTestCases(TestCase):
 
         for case in cases:
             selector = TRXMLSelector(case['input'])
-            itemgroup, index, field = selector.parse_trxml_miner()
+            itemgroup, index, field = selector.parse_trxml_selector()
             self.assertEqual(itemgroup, case['itemgroup'])
             self.assertEqual(index, case['index'])
             self.assertEqual(field, case['field'])
