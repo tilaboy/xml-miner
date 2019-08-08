@@ -4,13 +4,13 @@ from .selector_utils import valid_field_name, selector_attribute
 from .selector_utils import SELECTOR_TYPE, TRXML_SELECTOR_TYPE
 from .trxml_selector import TRXMLSelector
 
+
 class TRXMLSelectors():
     '''
     TRXMLSelectors:
     - array of TRXMLSelector class
     - method to select values on trxml doc level or from each items
     '''
-
 
     def __init__(self, selectors: List[str], trxml_selector_type=None,
                  shared_itemgroup_name=None):
@@ -34,14 +34,14 @@ class TRXMLSelectors():
 
         if trxml_selector_type is None:
             self.trxml_selector_type = \
-            selector_attribute(self.selectors, 'trxml_selector_type')
+                selector_attribute(self.selectors, 'trxml_selector_type')
         else:
             self.trxml_selector_type = trxml_selector_type
 
         if self.trxml_selector_type == TRXML_SELECTOR_TYPE['MULTIPLE']:
             if shared_itemgroup_name is None:
                 self.shared_itemgroup_name = \
-                selector_attribute(self.selectors, 'same_itemgroup')
+                    selector_attribute(self.selectors, 'same_itemgroup')
             else:
                 self.shared_itemgroup_name = shared_itemgroup_name
 
@@ -102,7 +102,8 @@ class TRXMLSelectors():
             be multiple value selectors")
 
         # get the itemgroup
-        itemgroup = trxml.working_entity.find(f"ItemGroup[@key='{self.shared_itemgroup_name}']")
+        itemgroup = trxml.working_entity.find(
+            f"ItemGroup[@key='{self.shared_itemgroup_name}']")
 
         try:
             items = itemgroup.findall("Item")
@@ -137,7 +138,7 @@ class TRXMLSelectors():
             raise ValueError("selectors for select singletons should be \
             single value selectors")
         return {
-            selector.text:selector.select_value_with_xpath(trxml)
+            selector.text: selector.select_value_with_xpath(trxml)
             for selector in self.selectors
         }
 

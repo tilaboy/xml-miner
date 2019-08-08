@@ -3,8 +3,9 @@
 import re
 
 RE_ALPHA = re.compile(r'\w')
-SELECTOR_TYPE = {'XML':'xml', 'TRXML':'trxml'}
-TRXML_SELECTOR_TYPE = {'SINGLETON':'singleton', 'MULTIPLE':'multiple'}
+SELECTOR_TYPE = {'XML': 'xml', 'TRXML': 'trxml'}
+TRXML_SELECTOR_TYPE = {'SINGLETON': 'singleton', 'MULTIPLE': 'multiple'}
+
 
 def valid_field_name(tag_name: str = '') -> bool:
     '''
@@ -22,12 +23,14 @@ def valid_field_name(tag_name: str = '') -> bool:
             f"tag_name '{tag_name}' needs at least one alphabet char")
     return True
 
+
 def _selector_target_type(selector) -> str:
     if "." in selector.text:
         selector_type = SELECTOR_TYPE['TRXML']
     else:
         selector_type = SELECTOR_TYPE['XML']
     return selector_type
+
 
 def _selector_singleton_type(selector) -> bool:
     item_index = selector.item_index
@@ -37,8 +40,10 @@ def _selector_singleton_type(selector) -> bool:
         selector_type = TRXML_SELECTOR_TYPE['MULTIPLE']
     return selector_type
 
+
 def _selector_same_itemgroup(selector) -> str:
     return selector.itemgroup_name
+
 
 def selector_attribute(selectors, attribute_name) -> str:
     '''
@@ -54,14 +59,17 @@ def selector_attribute(selectors, attribute_name) -> str:
     if attribute_name == 'selector_type':
         result = _selector_attribute_checking(selectors, _selector_target_type)
     elif attribute_name == 'trxml_selector_type':
-        result = _selector_attribute_checking(selectors, _selector_singleton_type)
+        result = _selector_attribute_checking(selectors,
+                                              _selector_singleton_type)
     elif attribute_name == 'same_itemgroup':
-        result = _selector_attribute_checking(selectors, _selector_same_itemgroup)
+        result = _selector_attribute_checking(selectors,
+                                              _selector_same_itemgroup)
     else:
         raise ValueError(
             f"selector attribute type '{attribute_name}' unknown"
         )
     return result
+
 
 def _selector_attribute_checking(selectors, attrib_func):
     first_attrib = None

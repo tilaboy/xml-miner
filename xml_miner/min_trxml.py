@@ -1,11 +1,12 @@
 '''the trxml selector script'''
-#!/usr/bin/env python
+
 from os.path import isfile, isdir
 from argparse import ArgumentParser
 from .data_utils import DataLoader
 from .selectors import TRXMLSelectors
 from .miner import TRXMLMiner
 from . import LOGGER
+
 
 def get_args():
     '''get arguments'''
@@ -19,20 +20,22 @@ def get_args():
     parser.add_argument('--output_file', help='outputfile of selected values',
                         type=str, default='STDOUT')
 
-
     parser.add_argument('--selector', help='''selector or selectors, selectors
                         are comma separated selector, both singleton selector,
                         e.g. 'name.0.name,address.0.address',
-                        or multi-item selectors: 'skill.*.skill,skill.*.skill_type' ''',
+                        or multi-item selectors:
+                        'skill.*.skill,skill.*.skill_type' ''',
                         type=str, default=None)
 
-    parser.add_argument('--itemgroup', help='itemgroup, for multi field selection',
+    parser.add_argument('--itemgroup',
+                        help='itemgroup, for multi field selection',
                         type=str, default=None)
 
     parser.add_argument('--fields', help='fields, comma separated',
                         type=str, default=None)
 
     return parser.parse_args()
+
 
 def _load_data(args):
     if isdir(args.source):
@@ -45,14 +48,18 @@ def _load_data(args):
         raise TypeError("could not determine source type, please check")
     return data
 
+
 def _read_selectors(args):
     if args.selector:
         selectors = TRXMLSelectors.from_selector_string(args.selector)
     elif args.itemgroup and args.fields:
-        selectors = TRXMLSelectors.from_itemgroup_and_fields(args.itemgroup, args.fields)
+        selectors = TRXMLSelectors.from_itemgroup_and_fields(args.itemgroup,
+                                                             args.fields)
     else:
-        raise RuntimeError("need to set arguments selectors, or itemgroup and fields")
+        raise RuntimeError('''need to set arguments selectors,
+        or itemgroup and fields''')
     return selectors
+
 
 def main():
     '''apply selectors to trxml files'''
@@ -66,6 +73,7 @@ def main():
     )
     trxml_miner = TRXMLMiner(selectors)
     trxml_miner.mine(data, args.output_file)
+
 
 if __name__ == "__main__":
     main()

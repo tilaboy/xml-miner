@@ -19,7 +19,10 @@ class XMLSelector:
 
     def select_all_values(self, xml_tree) -> List[str]:
         '''select all values match selectors'''
-        return ["".join(element.itertext()) for element in self.select_all_fields(xml_tree)]
+        return [
+                "".join(element.itertext())
+                for element in self.select_all_fields(xml_tree)
+               ]
 
     def __str__(self):
         return self.text

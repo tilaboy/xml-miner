@@ -2,6 +2,7 @@
 
 from .xml_selector import XMLSelector
 
+
 class TRXMLSelector(XMLSelector):
     '''
     trxml selector:
@@ -10,13 +11,11 @@ class TRXMLSelector(XMLSelector):
     - method to select values from trxml
     '''
 
-
     def __init__(self, selector: str):
         super().__init__(selector)
         self.itemgroup_name, self.item_index, self.field_name = \
-        self.parse_trxml_selector()
+            self.parse_trxml_selector()
         self.xpath = self._trxml_selector_to_xpath()
-
 
     def parse_trxml_selector(self):
         '''
@@ -46,11 +45,10 @@ class TRXMLSelector(XMLSelector):
             else:
                 raise ValueError("unable to parse the trxml selector")
         else:
-            raise ValueError("trxml selector should be in the form of \
-                \n\t- itemgroup.field \
-                \n\t- itemgroup.*.field \
-                \n\t- itemgroup.0.field" \
-            )
+            raise ValueError('''trxml selector should be in the form of
+                             \n\t- itemgroup.field
+                             \n\t- itemgroup.*.field
+                             \n\t- itemgroup.0.field''')
         return itemgroup, index, field
 
     def _itemgroup_xpath(self) -> str:
@@ -67,7 +65,8 @@ class TRXMLSelector(XMLSelector):
 
     def _trxml_selector_to_xpath(self) -> str:
         """convert a full trxml selector to the xpath"""
-        return self._itemgroup_xpath() + self._item_xpath() + self._field_xpath()
+        return self._itemgroup_xpath() + self._item_xpath() \
+            + self._field_xpath()
 
     def select_field_with_xpath(self, xml_tree):
         '''select the field using the selector xpath'''
