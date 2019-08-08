@@ -1,5 +1,8 @@
-"""TRXML class: render field or strings to trxml class, and select using xpath"""
+"""
+TRXML class: render field or strings to trxml class, and select using xpath
+"""
 from .base_xml import XML
+
 
 class TKTRXML(XML):
     """
@@ -7,7 +10,6 @@ class TKTRXML(XML):
     - render field or strings to trxml class
     - and select using xpath
     """
-
 
     def __init__(self, top_level_obj=None):
         super().__init__(top_level_obj)

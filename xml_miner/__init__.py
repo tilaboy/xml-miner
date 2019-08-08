@@ -2,6 +2,7 @@
 import sys
 import logging
 
+
 def define_logger(mod_name):
     """Set the default logging configuration"""
 
@@ -14,8 +15,10 @@ def define_logger(mod_name):
     logger.setLevel(logging.INFO)
     return logger
 
+
 def set_logging_level(level=logging.WARN):
     """Change logging level"""
     LOGGER.setLevel(level)
+
 
 LOGGER = define_logger(__name__)

@@ -19,7 +19,8 @@ class XMLSelectors():
         ]
         self.multiple_selector = len(selectors) > 1
 
-        self.selector_type = selector_attribute(self.selectors, 'selector_type')
+        self.selector_type = selector_attribute(self.selectors,
+                                                'selector_type')
         if self.selector_type != SELECTOR_TYPE['XML']:
             raise ValueError("""expect xml selector.
                              For trxml, please use trxml-miner""")
@@ -33,7 +34,7 @@ class XMLSelectors():
     def select_xml_fields(self, xml_tree):
         '''select all values matches the selector'''
         return {
-            selector.text:selector.select_all_values(xml_tree)
+            selector.text: selector.select_all_values(xml_tree)
             for selector in self.selectors
         }
 

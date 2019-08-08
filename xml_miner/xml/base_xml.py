@@ -10,7 +10,6 @@ class XML:
         - xml string
     '''
 
-
     def __init__(self, top_level_obj=None):
         self.top_level_obj = top_level_obj
         self.top_level_tag = self.top_level_obj.tag
@@ -29,7 +28,6 @@ class XML:
         tree = ET.parse(xml_file)
         return cls(top_level_obj=tree.getroot())
 
-
     @classmethod
     def from_string(cls, xml_string: str):
         """
@@ -45,7 +43,6 @@ class XML:
         tree = ET.ElementTree(ET.fromstring(xml_string))
         return cls(top_level_obj=tree.getroot())
 
-
     @staticmethod
     def text_from_element(element):
         '''the text value of an xml element'''
@@ -56,5 +53,5 @@ class XML:
         return value
 
     def __str__(self):
-        return ET.tostring(self.top_level_obj, encoding="UTF-8", \
+        return ET.tostring(self.top_level_obj, encoding="UTF-8",
                            short_empty_elements=False).decode().strip()

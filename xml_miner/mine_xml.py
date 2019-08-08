@@ -1,5 +1,5 @@
 '''the xml selector script'''
-#!/usr/bin/env python
+
 from argparse import ArgumentParser
 from os.path import isfile, isdir
 from .data_utils import DataLoader
@@ -7,12 +7,14 @@ from .selectors import XMLSelectors
 from .miner import XMLMiner
 from . import LOGGER
 
+
 def get_args():
     '''get arguments'''
     parser = ArgumentParser(description='''used defined selector, select field
                         values from xml files.''')
 
-    parser.add_argument('--source', help='''source of the xml files, it could be
+    parser.add_argument('--source', help='''source of the xml files,
+                        it could be:
                         1. a dir contains xml files
                         2. a mxml file or xml file
                         3. the host:port of a running annotation server''',
@@ -33,7 +35,8 @@ def get_args():
                          type=str, default='')
     as_args.add_argument('--as_pass', help='password to the annoationserver',
                          type=str, default='')
-    parser.add_argument('--with_field_name', help='add a column to show the field',
+    parser.add_argument('--with_field_name',
+                        help='add a column to show the field',
                         action='store_true')
 
     return parser.parse_args()
@@ -48,7 +51,8 @@ def _load_data(args):
         data = DataLoader.load_from_mxml(args.source)
     elif ":" in args.source:
         host, port = args.source.split(':')
-        LOGGER.info("connecting annotation server: host %s and port %s", host, port)
+        LOGGER.info("connecting annotation server: host %s and port %s",
+                    host, port)
         data = DataLoader.load_from_as(
             host,
             port,
@@ -66,7 +70,7 @@ def main():
     args = get_args()
     data = _load_data(args)
     selectors = XMLSelectors.from_selector_string(args.selector)
-    xml_miner = XMLMiner(selectors,args.with_field_name)
+    xml_miner = XMLMiner(selectors, args.with_field_name)
     LOGGER.info(
         "select '%s' and write results to '%s'",
         selectors.selector_string,

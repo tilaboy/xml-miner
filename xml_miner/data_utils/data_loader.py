@@ -61,10 +61,8 @@ class DataLoader:
     XML_HEADER = '<begin '
     TRXML_HEADER = '<TextractorResult '
 
-
     def __init__(self, data_generator=None):
         self.data_generator = data_generator
-
 
     @classmethod
     def load_from_dir(cls, input_dir):
@@ -111,8 +109,8 @@ class DataLoader:
         """
         with open(input_mxml, 'rt') as file:
             xml_string = file.read()
-        return cls(data_generator=load_from_string(xml_string, cls.TRXML_HEADER))
-
+        return cls(data_generator=load_from_string(xml_string,
+                                                   cls.TRXML_HEADER))
 
     @classmethod
     def load_from_as(cls, host, port, query, as_user='', as_pass=''):

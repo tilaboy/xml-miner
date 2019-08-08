@@ -10,7 +10,8 @@ class ASClient:
     BUFFER_SIZE = 2 * 1024
     ENCODING = 'utf-8'
 
-    def __init__(self, host: str, port: str, as_user: str = '', as_pass: str = ''):
+    def __init__(self, host: str, port: str,
+                 as_user: str = '', as_pass: str = ''):
         """
         Init a new socket client to the annotation server
 
@@ -50,16 +51,14 @@ class ASClient:
 
             response = self.tk_socket.recv(self.BUFFER_SIZE)
         except IOError as error:
-            raise IOError("Unexpected welcome message: {}:{} \
-                {}".format(self.host, self.port, error))
+            raise IOError("Unexpected welcome message: {}:{}{}".format(
+                self.host, self.port, error))
 
         response = response.decode(self.ENCODING)
         if not response.startswith("OK"):
-            raise IOError("Unexpected welcome message: \
-                {}".format(response))
+            raise IOError("Unexpected welcome message:{}".format(response))
 
         return
-
 
     def prepare_message(self, message: str) -> str:
         """
@@ -87,7 +86,7 @@ class ASClient:
             try:
                 data = self.tk_socket.recv(self.BUFFER_SIZE)
             except IOError as error:
-                raise IOError("wrong response from {}:{}, {}".format(\
+                raise IOError("wrong response from {}:{}, {}".format(
                     self.host, self.port, error))
             else:
                 if not data:
@@ -124,6 +123,7 @@ class ASClient:
             try:
                 document = self.send_and_receive('GIVE xml id ' + doc_index)
             except IOError:
-                LOGGER.warning("WARNING: failed to fetch document: %s", doc_index)
+                LOGGER.warning("WARNING: failed to fetch document: %s",
+                               doc_index)
             else:
                 yield document

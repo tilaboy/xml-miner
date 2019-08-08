@@ -6,6 +6,7 @@ from .xml import TKXML, TKTRXML
 from .selectors import TRXML_SELECTOR_TYPE
 from . import LOGGER
 
+
 def _normalize_string(line: str) -> str:
     '''
     normalization selected values:
@@ -29,7 +30,8 @@ class CommonMiner:
             data (xml document_loader): a data generator loop through all xmls
             selectors (XMLSelectors): see xml_selector.py
             output_file (string): the output filename
-            with_field_name: add a column to show the field_name of extracted value
+            with_field_name: add a column to show the field_name of extracted
+            value
         output:
             None
         '''
@@ -40,10 +42,11 @@ class CommonMiner:
     def _init_counter(self):
         self.num_docs = 0
         self.num_values = 0
-        self.value_counter = {selector.text:0 for selector in self.selectors}
+        self.value_counter = {selector.text: 0 for selector in self.selectors}
 
     def _print_summary(self):
-        LOGGER.info("found total %s values from %s docss", self.num_values, self.num_docs)
+        LOGGER.info("found total %s values from %s docss",
+                    self.num_values, self.num_docs)
         if len(self.value_counter) > 1:
             for field in self.value_counter:
                 LOGGER.info("- found %d %s", self.value_counter[field], field)
@@ -59,7 +62,8 @@ class XMLMiner(CommonMiner):
         '''
         params:
             selectors (XMLSelectors): see xml_selector.py
-            with_field_name: add a column to show the field_name of extracted value
+            with_field_name: add a column to show the field_name of
+            extracted value
         output:
             None
         '''
@@ -73,7 +77,12 @@ class XMLMiner(CommonMiner):
         writer.store(csv_header)
         return
 
-    def _print_record(self, writer, filename: str, value: str, field: str) -> List[str]:
+    def _print_record(
+                      self,
+                      writer: DataSaver,
+                      filename: str,
+                      value: str,
+                      field: str) -> List[str]:
         norm_value = _normalize_string(value)
         if norm_value:
             csv_row = [filename, norm_value]
@@ -90,7 +99,7 @@ class XMLMiner(CommonMiner):
         the selected values to the output file
 
         params:
-            - data (xml document_loader): a data generator loop through all xmls
+            - data (xml document_loader): a data generator loop through xmls
             - output_file (string): the output filename
 
 
@@ -111,7 +120,8 @@ class XMLMiner(CommonMiner):
 
             self.num_docs += 1
 
-            for field, values in self.selectors.select_xml_fields(xml_obj).items():
+            selected = self.selectors.select_xml_fields(xml_obj)
+            for field, values in selected.items():
                 for value in values:
                     self._print_record(writer, xml_obj.filename, value, field)
 
@@ -127,9 +137,11 @@ class TRXMLMiner(CommonMiner):
     '''
 
     def _print_header(self, writer) -> List[str]:
-        if self.selectors.trxml_selector_type == TRXML_SELECTOR_TYPE['MULTIPLE']:
+        if self.selectors.trxml_selector_type == \
+                TRXML_SELECTOR_TYPE['MULTIPLE']:
             field_names = [selector.field_name for selector in self.selectors]
-            header = ["filename", self.selectors.shared_itemgroup_name] + field_names
+            header = ["filename", self.selectors.shared_itemgroup_name] \
+                + field_names
         else:
             field_names = [selector.text for selector in self.selectors]
             header = ["filename"] + field_names
@@ -147,8 +159,8 @@ class TRXMLMiner(CommonMiner):
 
     def mine(self, data, output_file):
         """
-        iterate the input data (trxml obj), apply selector on each trxml, and output
-        the selected values to a csv file
+        iterate the input data (trxml obj), apply selector on each trxml,
+        and output the selected values to a csv file
 
         params:
             data (trxml document_loader): contains a data generator loop
@@ -163,16 +175,22 @@ class TRXMLMiner(CommonMiner):
             try:
                 trxml_obj = TKTRXML.from_string(doc)
             except ET.ParseError:
-                LOGGER.warning("WARNING: could not parse trxml, skip file:\n%s", doc)
+                LOGGER.warning(
+                    "WARNING: could not parse trxml, skip file:\n%s", doc)
                 continue
 
             self.num_docs += 1
             selected_values = self.selectors.select_trxml_fields(trxml_obj)
 
-            if self.selectors.trxml_selector_type == TRXML_SELECTOR_TYPE['MULTIPLE']:
+            if self.selectors.trxml_selector_type \
+                    == TRXML_SELECTOR_TYPE['MULTIPLE']:
                 for item_index in selected_values:
-                    norm_values = self._normalize_record_values(selected_values[item_index])
-                    writer.store([trxml_obj.filename, item_index] + norm_values)
+                    norm_values = self._normalize_record_values(
+                        selected_values[item_index])
+                    writer.store(
+                                 [trxml_obj.filename, item_index]
+                                 + norm_values
+                                )
             else:
                 norm_values = self._normalize_record_values(selected_values)
                 writer.store([trxml_obj.filename] + norm_values)
