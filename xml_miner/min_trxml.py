@@ -34,11 +34,7 @@ def get_args():
 
     return parser.parse_args()
 
-
-def main():
-    '''apply selectors to trxml files'''
-    args = get_args()
-
+def _load_data(args):
     if isdir(args.source):
         LOGGER.info("reading trxml documents from dir %s", args.source)
         data = DataLoader.load_from_dir(args.source)
@@ -47,21 +43,29 @@ def main():
         data = DataLoader.load_from_mtrxml(args.source)
     else:
         raise TypeError("could not determine source type, please check")
+    return data
 
+def _read_selectors(args):
     if args.selector:
         selectors = TRXMLSelectors.from_selector_string(args.selector)
     elif args.itemgroup and args.fields:
         selectors = TRXMLSelectors.from_itemgroup_and_fields(args.itemgroup, args.fields)
     else:
         raise RuntimeError("need to set arguments selectors, or itemgroup and fields")
+    return selectors
 
+def main():
+    '''apply selectors to trxml files'''
+    args = get_args()
+    data = _load_data(args)
+    selectors = _read_selectors(args)
     LOGGER.info(
         "select '%s' and write results to '%s'",
         selectors.selector_string,
         args.output_file
     )
-    trxml_miner = TRXMLMiner(data, selectors, args.output_file)
-    trxml_miner.mine()
+    trxml_miner = TRXMLMiner(selectors)
+    trxml_miner.mine(data, args.output_file)
 
 if __name__ == "__main__":
     main()

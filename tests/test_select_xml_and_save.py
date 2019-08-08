@@ -26,8 +26,8 @@ class XmlTestCases(TestCase):
         data_generator = DataLoader.load_from_dir(self.xmls_dir)
         eval_filename = os.path.join(self.test_dir, 'from_dir.csv')
         selectors = XMLSelectors(["name"])
-        xml_miner = XMLMiner(data_generator, selectors, eval_filename)
-        xml_miner.mine()
+        xml_miner = XMLMiner(selectors)
+        xml_miner.mine(data_generator, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_file,
@@ -39,8 +39,8 @@ class XmlTestCases(TestCase):
         data_generator = DataLoader.load_from_mxml(self.mxml_file)
         eval_filename = os.path.join(self.test_dir, 'from_mxml.csv')
         selectors = XMLSelectors(["name"])
-        xml_miner = XMLMiner(data_generator, selectors, eval_filename)
-        xml_miner.mine()
+        xml_miner = XMLMiner(selectors)
+        xml_miner.mine(data_generator, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_file,
@@ -52,13 +52,8 @@ class XmlTestCases(TestCase):
         data_generator = DataLoader.load_from_mxml(self.mxml_file)
         eval_filename = os.path.join(self.test_dir, 'from_mxml.csv')
         selectors = XMLSelectors(["name", "address"])
-        xml_miner = XMLMiner(
-            data_generator,
-            selectors,
-            eval_filename,
-            with_field_name=True
-        )
-        xml_miner.mine()
+        xml_miner = XMLMiner(selectors, with_field_name=True)
+        xml_miner.mine(data_generator, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_address_file,

@@ -23,7 +23,7 @@ class CommonMiner:
 
     shared class for both xml and trxml
     '''
-    def __init__(self, data, selectors, output_file):
+    def __init__(self, selectors):
         '''
         params:
             data (xml document_loader): a data generator loop through all xmls
@@ -33,10 +33,8 @@ class CommonMiner:
         output:
             None
         '''
-        self.data = data
         self.selectors = selectors
         self.selector_string = selectors.selector_string
-        self.writer = DataSaver(output_file)
         self._init_counter()
 
     def _init_counter(self):
@@ -57,52 +55,54 @@ class XMLMiner(CommonMiner):
     - iterate over the xml files and select values
     - output selected values to a file, and print summary
     '''
-    def __init__(self, data, selectors, output_file, with_field_name=False):
+    def __init__(self, selectors, with_field_name=False):
         '''
         params:
-            data (xml document_loader): a data generator loop through all xmls
             selectors (XMLSelectors): see xml_selector.py
-            output_file (string): the output filename
             with_field_name: add a column to show the field_name of extracted value
         output:
             None
         '''
-        super().__init__(data, selectors, output_file)
+        super().__init__(selectors)
         self.with_field_name = with_field_name
 
-    def _print_header(self) -> List[str]:
+    def _print_header(self, writer) -> List[str]:
         csv_header = ["filename", "value"]
         if self.with_field_name:
             csv_header.append("field")
-        self.writer.store(csv_header)
+        writer.store(csv_header)
         return
 
-    def _print_record(self, filename: str, value: str, field: str) -> List[str]:
+    def _print_record(self, writer, filename: str, value: str, field: str) -> List[str]:
         norm_value = _normalize_string(value)
         if norm_value:
             csv_row = [filename, norm_value]
             if self.with_field_name:
                 csv_row.append(field)
-            self.writer.store(csv_row)
+            writer.store(csv_row)
 
             self.num_values += 1
             self.value_counter[field] += 1
 
-
-
-    def mine(self):
+    def mine(self, data, output_file):
         """
         iterate the input data (xml obj), apply selector on each xml, and save
         the selected values to the output file
 
-        output file format:
-        - no field name: filename value
-        - with field name: filename, value, field_name
-        """
-        self._init_counter()
-        self._print_header()
+        params:
+            - data (xml document_loader): a data generator loop through all xmls
+            - output_file (string): the output filename
 
-        for doc in self.data.data_generator:
+
+        output file format:
+            - no field name: filename value
+            - with field name: filename, value, field_name
+        """
+        writer = DataSaver(output_file)
+        self._init_counter()
+        self._print_header(writer)
+
+        for doc in data.data_generator:
             try:
                 xml_obj = TKXML.from_string(doc)
             except ET.ParseError:
@@ -113,10 +113,10 @@ class XMLMiner(CommonMiner):
 
             for field, values in self.selectors.select_xml_fields(xml_obj).items():
                 for value in values:
-                    self._print_record(xml_obj.filename, value, field)
+                    self._print_record(writer, xml_obj.filename, value, field)
 
         self._print_summary()
-        self.writer.close_stream()
+        writer.close_stream()
 
 
 class TRXMLMiner(CommonMiner):
@@ -126,14 +126,14 @@ class TRXMLMiner(CommonMiner):
     - output selected values to a file, and print summary
     '''
 
-    def _print_header(self) -> List[str]:
+    def _print_header(self, writer) -> List[str]:
         if self.selectors.trxml_selector_type == TRXML_SELECTOR_TYPE['MULTIPLE']:
             field_names = [selector.field_name for selector in self.selectors]
             header = ["filename", self.selectors.shared_itemgroup_name] + field_names
         else:
             field_names = [selector.text for selector in self.selectors]
             header = ["filename"] + field_names
-        self.writer.store(header)
+        writer.store(header)
 
     def _normalize_record_values(self, values) -> List[str]:
         norm_values = []
@@ -145,7 +145,7 @@ class TRXMLMiner(CommonMiner):
                 self.value_counter[field_name] += 1
         return norm_values
 
-    def mine(self):
+    def mine(self, data, output_file):
         """
         iterate the input data (trxml obj), apply selector on each trxml, and output
         the selected values to a csv file
@@ -153,13 +153,13 @@ class TRXMLMiner(CommonMiner):
         params:
             data (trxml document_loader): contains a data generator loop
             through all input data
-            selectors(TRXMLSectors): see trxml_selector.py
             output_file (string): the output filename
         """
         self._init_counter()
-        self._print_header()
+        writer = DataSaver(output_file)
+        self._print_header(writer)
 
-        for doc in self.data.data_generator:
+        for doc in data.data_generator:
             try:
                 trxml_obj = TKTRXML.from_string(doc)
             except ET.ParseError:
@@ -172,10 +172,10 @@ class TRXMLMiner(CommonMiner):
             if self.selectors.trxml_selector_type == TRXML_SELECTOR_TYPE['MULTIPLE']:
                 for item_index in selected_values:
                     norm_values = self._normalize_record_values(selected_values[item_index])
-                    self.writer.store([trxml_obj.filename, item_index] + norm_values)
+                    writer.store([trxml_obj.filename, item_index] + norm_values)
             else:
                 norm_values = self._normalize_record_values(selected_values)
-                self.writer.store([trxml_obj.filename] + norm_values)
+                writer.store([trxml_obj.filename] + norm_values)
 
         self._print_summary()
-        self.writer.close_stream()
+        writer.close_stream()

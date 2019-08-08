@@ -38,10 +38,8 @@ def get_args():
 
     return parser.parse_args()
 
-def main():
-    '''apply selectors to xml files'''
-    args = get_args()
 
+def _load_data(args):
     if isdir(args.source):
         LOGGER.info("reading xml documents in dir %s", args.source)
         data = DataLoader.load_from_dir(args.source)
@@ -60,20 +58,21 @@ def main():
             )
     else:
         raise TypeError("could not determine source type, please check")
+    return data
 
+
+def main():
+    '''apply selectors to xml files'''
+    args = get_args()
+    data = _load_data(args)
     selectors = XMLSelectors.from_selector_string(args.selector)
+    xml_miner = XMLMiner(selectors,args.with_field_name)
     LOGGER.info(
         "select '%s' and write results to '%s'",
         selectors.selector_string,
         args.output_file
     )
-    xml_miner = XMLMiner(
-        data,
-        selectors,
-        args.output_file,
-        args.with_field_name
-    )
-    xml_miner.mine()
+    xml_miner.mine(data, args.output_file)
 
 
 if __name__ == "__main__":
