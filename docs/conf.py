@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# taxonomy_matcher documentation build configuration file, created by
+# xml_miner documentation build configuration file, created by
 # sphinx-quickstart on Mon Jul 29 02:50:56 2019.
 #
 # This file is execfile()d with the current directory set to its
@@ -49,7 +49,7 @@ source_suffix = ['.rst', '.md']
 master_doc = 'index'
 
 # General information about the project.
-project = 'taxonomy_matcher'
+project = 'xml_miner'
 copyright = '2019, Chao Li'
 author = 'Chao Li'
 
@@ -115,7 +115,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'taxonomy_matcherdoc'
+htmlhelp_basename = 'xml_minerdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -142,7 +142,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'taxonomy_matcher.tex', 'gz\\_matcher Documentation',
+    (master_doc, 'xml_miner.tex', 'xml miner Documentation',
      'Chao Li', 'manual'),
 ]
 
@@ -152,7 +152,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'taxonomy_matcher', 'taxonomy_matcher Documentation',
+    (master_doc, 'xml_miner', 'xml_miner Documentation',
      [author], 1)
 ]
 
@@ -163,7 +163,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'taxonomy_matcher', 'taxonomy_matcher Documentation',
-     author, 'taxonomy_matcher', 'One line description of project.',
+    (master_doc, 'xml_miner', 'xml_miner Documentation',
+     author, 'xml_miner', 'One line description of project.',
      'Miscellaneous'),
 ]
