@@ -25,9 +25,6 @@ Installation
 
     pip install xml-selector
 
-See `this
-page <https://confluence.textkernel.nl/display/DU/Python+tk-pypi+Repo#Pythontk-pypiRepo-Connecttotk-pypi>`__
-about how to install a package from the tk-pypi repo.
 
 Usage
 -----
