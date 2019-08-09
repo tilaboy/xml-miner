@@ -32,7 +32,7 @@ class TRXMLSelector(XMLSelector):
 
         conversion rules:
         ::
-        
+
             - ig.index.field    ->    (ig, index, field)
             - ig.*.field        ->    (ig, *, field)
             - ig.field          ->    (ig, *, field)
