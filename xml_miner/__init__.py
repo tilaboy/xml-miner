@@ -1,6 +1,14 @@
-'''TK xml/trxml selector'''
+# -*- coding: utf-8 -*-
+"""
+Top-level package for xml-miner
+"""
 import sys
 import logging
+
+__author__ = """Chao Li"""
+__email__ = 'chaoli.job@google.com'
+__version__ = '0.0.0'
+name = "taxonomy_matcher"
 
 
 def define_logger(mod_name):
