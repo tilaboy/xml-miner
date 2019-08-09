@@ -8,7 +8,7 @@ from xml_miner.miner import TRXMLMiner
 from xml_miner.selectors import TRXMLSelectors
 from xml_miner.data_utils import DataLoader
 
-class TrxmlTestCases(TestCase):
+class TrxmlMinerTestCases(TestCase):
     """unit tests for select from trxml and save to csv files"""
     def setUp(self):
         self.trxmls_dir = 'tests/resource/trxmls'

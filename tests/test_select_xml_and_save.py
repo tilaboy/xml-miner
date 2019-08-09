@@ -8,7 +8,7 @@ from xml_miner.miner import XMLMiner
 from xml_miner.selectors import XMLSelectors
 from xml_miner.data_utils import DataLoader
 
-class XmlTestCases(TestCase):
+class XmlMinerTestCases(TestCase):
     """unit tests for select from xml and save to csv files"""
     def setUp(self):
         self.xmls_dir = 'tests/resource/xmls'

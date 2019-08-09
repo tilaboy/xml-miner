@@ -6,7 +6,7 @@ from xml_miner.selectors.selector_utils import valid_field_name, selector_attrib
 from xml_miner.selectors.selector_utils import SELECTOR_TYPE, TRXML_SELECTOR_TYPE
 from xml_miner.selectors import TRXMLSelectors, XMLSelectors
 
-class SelectorXMLTestCases(TestCase):
+class XMLUtilsTestCases(TestCase):
     """unit tests to select values from xml files or strings"""
 
     def test_field_name_validation(self):
