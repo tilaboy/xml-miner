@@ -16,14 +16,16 @@ the selected values to file.
 Status
 ------------
 
-
+.. image:: https://travis-ci.org/tilaboy/xml-miner.svg?branch=master
+    :target: https://travis-ci.org/tilaboy/xml-miner
 
 .. image:: https://readthedocs.org/projects/xml-miner/badge/?version=latest
 :target: https://xml-miner.readthedocs.io/en/latest/?badge=latest
 :alt: Documentation Status
 
-
-
+.. image:: https://pyup.io/repos/github/tilaboy/xml-miner/shield.svg
+     :target: https://pyup.io/repos/github/tilaboy/xml-miner/
+     :alt: Updates
 
 Requirements
 ------------
