@@ -38,9 +38,8 @@ setup(
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "xml-select=xml_miner.mine_xml:main",
-            "xml-python-select=xml_miner.mine_xml:main",
-            "trxml-python-select=xml_miner.mine_trxml:main",
+            "mine-xml=xml_miner.mine_xml:main",
+            "mine-trxml=xml_miner.mine_trxml:main",
         ],
     },
     license="MIT license",
