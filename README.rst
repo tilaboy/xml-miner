@@ -4,13 +4,13 @@ XML/TRXML Selector
 Description
 -----------
 
-This package provides two scripts: ``xml-python-select`` and
-``trxml-python-select``.
+This package provides two scripts: ``mine-xml`` and
+``mine-trxml``.
 
-``xml-python-select`` selects tags from xml/mxml files, and save the
+``mine-xml`` selects tags from xml/mxml files, and save the
 selected values to file.
 
-``trxml-python-select`` selects fields from trxml/mtrxml files, and save
+``mine-trxml`` selects fields from trxml/mtrxml files, and save
 the selected values to file.
 
 Requirements
@@ -52,14 +52,14 @@ examples:
 ::
 
     #select from xml directory
-    xml-python-select --source tests/xmls/ --selector name --output_file name.tsv
-    xml-python-select --source tests/xmls/ --selector langskill,compskill,softskill --output_file skill.tsv --with_field_name
+    mine-xml --source tests/xmls/ --selector name --output_file name.tsv
+    mine-xml --source tests/xmls/ --selector langskill,compskill,softskill --output_file skill.tsv --with_field_name
 
     #select from xml file or mxml file
-    xml-python-select --source tests/sample.mxml --selector experience --output_file experience.tsv
+    mine-xml --source tests/sample.mxml --selector experience --output_file experience.tsv
 
     #select directly from annotation server
-    xml-python-select --source localhost:50249 --selector name --output_file name.tsv --query "set Data2018"
+    mine-xml --source localhost:50249 --selector name --output_file name.tsv --query "set Data2018"
 
 Use trxml selector script
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,18 +90,18 @@ examples:
 ::
 
     # one selector, single item
-    trxml-python-select --source tests/trxmls/ --selector name.0.name --output_file name.tsv
+    mine-trxml --source tests/trxmls/ --selector name.0.name --output_file name.tsv
 
     # one selector, multiple item
-    trxml-python-select --source tests/sample.mxml --selector experienceitem.experience --output_file experience.tsv
+    mine-trxml --source tests/sample.mxml --selector experienceitem.experience --output_file experience.tsv
 
     # more selectors, single item
-    trxml-python-select --source tests/trxmls/ --selector name.0.name,address.0.address,phone.0.phone --output_file personal.tsv
+    mine-trxml --source tests/trxmls/ --selector name.0.name,address.0.address,phone.0.phone --output_file personal.tsv
 
     # more selectors, multiple item
-    trxml-python-select --source tests/sample.mxml  --itemgroup experienceitem --fields experience,experiencedate --output_file experience.tsv
-    trxml-python-select --source tests/sample.mxml  --selector experienceitem.*.experience,experienceitem.*.experiencedate --output_file experience.tsv
-    trxml-python-select --source tests/sample.mxml  --selector experienceitem.experience,experienceitem.experiencedate --output_file experience.tsv
+    mine-trxml --source tests/sample.mxml  --itemgroup experienceitem --fields experience,experiencedate --output_file experience.tsv
+    mine-trxml --source tests/sample.mxml  --selector experienceitem.*.experience,experienceitem.*.experiencedate --output_file experience.tsv
+    mine-trxml --source tests/sample.mxml  --selector experienceitem.experience,experienceitem.experiencedate --output_file experience.tsv
 
 Development
 -----------
@@ -130,7 +130,7 @@ directory:
 selector and output details:
 ----------------------------
 
--  xml-python-select:
+-  mine-xml:
 
    input: documents, selector(s), output
 
@@ -160,7 +160,7 @@ selector and output details:
    | xxxx       | dutch   | langskill   |
    +------------+---------+-------------+
 
--  trxml-python-select
+-  mine-trxml
 
    -  input:
    -  documents, selector(s), output,

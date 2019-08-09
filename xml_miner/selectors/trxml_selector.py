@@ -8,6 +8,7 @@ class TRXMLSelector(XMLSelector):
     trxml selector:
 
     - subclass of XMLSelector
+
     - method to select values from trxml
     '''
 
@@ -22,15 +23,19 @@ class TRXMLSelector(XMLSelector):
         converting the trxml selector to (itemgroup, index, field):
 
         params:
+
         - selector: string
 
         output:
+
         - itemgroup, index, field
 
         conversion rules:
-        ig.index.field    =>    (ig, index, field)
-        ig.*.field        =>    (ig, *, field)
-        ig.field          =>    (ig, *, field)
+        ::
+        
+            - ig.index.field    ->    (ig, index, field)
+            - ig.*.field        ->    (ig, *, field)
+            - ig.field          ->    (ig, *, field)
         '''
 
         if "." in self.text:
