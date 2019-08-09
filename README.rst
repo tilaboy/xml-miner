@@ -13,6 +13,18 @@ selected values to file.
 ``mine-trxml`` selects fields from trxml/mtrxml files, and save
 the selected values to file.
 
+Status
+------------
+
+
+
+.. image:: https://readthedocs.org/projects/xml-miner/badge/?version=latest
+:target: https://xml-miner.readthedocs.io/en/latest/?badge=latest
+:alt: Documentation Status
+
+
+
+
 Requirements
 ------------
 
