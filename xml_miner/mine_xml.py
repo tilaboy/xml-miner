@@ -1,8 +1,6 @@
 '''the xml selector script'''
 
 from argparse import ArgumentParser
-from os.path import isfile, isdir
-from .data_utils import DataLoader
 from .selectors import XMLSelectors
 from .miner import XMLMiner
 from . import LOGGER
@@ -41,30 +39,6 @@ def get_args():
 
     return parser.parse_args()
 
-
-def _load_data(args):
-    if isdir(args.source):
-        LOGGER.info("reading xml documents in dir %s", args.source)
-        data = DataLoader.load_from_dir(args.source)
-    elif isfile(args.source):
-        LOGGER.info("reading mxml document %s", args.source)
-        data = DataLoader.load_from_mxml(args.source)
-    elif ":" in args.source:
-        host, port = args.source.split(':')
-        LOGGER.info("connecting annotation server: host %s and port %s",
-                    host, port)
-        data = DataLoader.load_from_as(
-            host,
-            port,
-            args.query,
-            args.as_user,
-            args.as_pass
-            )
-    else:
-        raise TypeError("could not determine source type, please check")
-    return data
-
-
 def main():
     '''apply selectors to xml files'''
     args = get_args()
@@ -76,7 +50,11 @@ def main():
         selectors.selector_string,
         args.output_file
     )
-    xml_miner.mine(data, args.output_file)
+    xml_miner.mine(args.source,
+                   args.output_file,
+                   args.query,
+                   args.as_user,
+                   args.as_pass)
 
 
 if __name__ == "__main__":

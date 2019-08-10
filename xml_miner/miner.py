@@ -1,7 +1,8 @@
 """apply selector on input data, and output it to a csv file"""
 from typing import List
+from os.path import isfile, isdir
 import xml.etree.ElementTree as ET
-from .data_utils import DataSaver
+from .data_utils import DataLoader, DataSaver
 from .xml import TKXML, TKTRXML
 from .selectors import TRXML_SELECTOR_TYPE
 from . import LOGGER
@@ -16,7 +17,6 @@ def _normalize_string(line: str) -> str:
         line = line.replace('\n', "__NEWLINE__")
         line = line.replace('\t', "    ")
     return line
-
 
 class CommonMiner:
     '''
@@ -93,24 +93,61 @@ class XMLMiner(CommonMiner):
             self.num_values += 1
             self.value_counter[field] += 1
 
-    def mine(self, data, output_file):
+    def load_data(self,
+                  source: str,
+                  query: str=None,
+                  as_user: str=None,
+                  as_pass: str=None):
         """
-        iterate the input data (xml obj), apply selector on each xml, and save
-        the selected values to the output file
+        load the data into a data generator
 
         params:
-            - data (xml document_loader): a data generator loop through xmls
-            - output_file (string): the output filename
+            - source: data source
+            - annotation server parameters: query, as_user, as_pass
 
-
-        output file format:
-            - no field name: filename value
-            - with field name: filename, value, field_name
+        output:
+            - yeild xml
         """
-        writer = DataSaver(output_file)
-        self._init_counter()
-        self._print_header(writer)
 
+        if isdir(source):
+            LOGGER.info("reading xml documents in dir %s", source)
+            data = DataLoader.load_from_dir(source)
+        elif isfile(source):
+            LOGGER.info("reading mxml document %s", source)
+            data = DataLoader.load_from_mxml(source)
+        elif ":" in source:
+            host, port = source.split(':')
+            LOGGER.info("connecting annotation server: host %s and port %s",
+                        host, port)
+            data = DataLoader.load_from_as(
+                host,
+                port,
+                query,
+                as_user,
+                as_pass
+                )
+        else:
+            raise TypeError("could not determine source type, please check")
+        return data
+
+    def mine(self,
+             source: str,
+             query: str=None,
+             as_user: str=None,
+             as_pass: str=None):
+        """
+        iterate the input data (xml obj), apply selector on each xml, and
+        yield the selected values
+
+        params:
+            - source: data source
+            - annotation server parameters: query, as_user, as_pass
+
+        output:
+            - iterate over selected fields per doc
+        """
+
+        data = self.load_data(source, query, as_user, as_pass)
         for doc in data.data_generator:
             try:
                 xml_obj = TKXML.from_string(doc)
@@ -124,8 +161,36 @@ class XMLMiner(CommonMiner):
 
             self.num_docs += 1
             for field, values in selected.items():
-                for value in values:
-                    self._print_record(writer, xml_obj.filename, value, field)
+                yield {'file':xml_obj.filename, 'field':field, 'value': values}
+
+    def mine_and_save(self,
+                      source: str,
+                      output_file: str,
+                      query: str=None,
+                      as_user: str=None,
+                      as_pass: str=None):
+
+        """
+        iterate the selected values and save/print to ouput
+
+        params:
+            - source: data source
+            - output_file (string): the output filename
+            - annotation server parameters: query, as_user, as_pass
+
+        output file format:
+            - no field name: filename value
+            - with field name: filename, value, field_name
+        """
+        writer = DataSaver(output_file)
+        self._init_counter()
+        self._print_header(writer)
+        for selected in self.mine(source, query, as_user, as_pass):
+            for value in selected['value']:
+                self._print_record(writer,
+                                   selected['file'],
+                                   value,
+                                   selected['field'])
 
         self._print_summary()
         writer.close_stream()
@@ -159,20 +224,39 @@ class TRXMLMiner(CommonMiner):
                 self.value_counter[field_name] += 1
         return norm_values
 
-    def mine(self, data, output_file):
+    def load_data(self, source):
+        """
+        load the data into a data generator
+
+        params:
+            - source: data source
+
+        output:
+            - yeild trxml
+        """
+        if isdir(source):
+            LOGGER.info("reading trxml documents from dir %s", source)
+            data = DataLoader.load_from_dir(source)
+        elif isfile(source):
+            LOGGER.info("reading mtrxml document %s", source)
+            data = DataLoader.load_from_mtrxml(source)
+        else:
+            raise TypeError("could not determine source type, please check")
+        return data
+
+    def mine(self, source):
         """
         iterate the input data (trxml obj), apply selector on each trxml,
         and output the selected values to a csv file
 
         params:
-            data (trxml document_loader): contains a data generator loop
-            through all input data
-            output_file (string): the output filename
-        """
-        self._init_counter()
-        writer = DataSaver(output_file)
-        self._print_header(writer)
+            source: data source
 
+        output:
+            generate selected values per doc
+        """
+
+        data = self.load_data(source)
         for doc in data.data_generator:
             try:
                 trxml_obj = TKTRXML.from_string(doc)
@@ -185,18 +269,37 @@ class TRXMLMiner(CommonMiner):
                 continue
 
             self.num_docs += 1
+            yield {'file': trxml_obj.filename, 'value': selected_values}
+
+
+    def mine_and_save(self, source: str, output_file: str):
+        """
+        iterate the input data (trxml obj), apply selector on each trxml,
+        and output the selected values to a csv file
+
+        params:
+            source (string): data source
+            output_file (string): the output filename
+        """
+        self._init_counter()
+        writer = DataSaver(output_file)
+        self._print_header(writer)
+
+        for selected_values in self.mine(source):
+
             if self.selectors.trxml_selector_type \
                     == TRXML_SELECTOR_TYPE['MULTIPLE']:
-                for item_index in selected_values:
+                for item_index in selected_values['value']:
                     norm_values = self._normalize_record_values(
-                        selected_values[item_index])
+                        selected_values['value'][item_index])
                     writer.store(
-                                 [trxml_obj.filename, item_index]
+                                 [selected_values['file'], item_index]
                                  + norm_values
                                 )
             else:
-                norm_values = self._normalize_record_values(selected_values)
-                writer.store([trxml_obj.filename] + norm_values)
+                norm_values = self._normalize_record_values(
+                        selected_values['value'])
+                writer.store([selected_values['file']] + norm_values)
 
         self._print_summary()
         writer.close_stream()

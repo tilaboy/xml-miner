@@ -28,7 +28,7 @@ class TrxmlMinerTestCases(TestCase):
         eval_filename = os.path.join(self.test_dir, 'from_dir.csv')
         selectors = TRXMLSelectors.from_selector_string("name.0.name")
         trxml_miner = TRXMLMiner(selectors)
-        trxml_miner.mine(data_generator, eval_filename)
+        trxml_miner.mine_and_save(self.trxmls_dir, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_file,
@@ -40,7 +40,7 @@ class TrxmlMinerTestCases(TestCase):
         eval_filename = os.path.join(self.test_dir, 'from_mxml.csv')
         selectors = TRXMLSelectors.from_selector_string("name.0.name")
         trxml_miner = TRXMLMiner(selectors)
-        trxml_miner.mine(data_generator, eval_filename)
+        trxml_miner.mine_and_save(self.trxmls_dir, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_file,
@@ -52,7 +52,7 @@ class TrxmlMinerTestCases(TestCase):
         eval_filename = os.path.join(self.test_dir, 'from_mxml.csv')
         selectors = TRXMLSelectors.from_selector_string("name.0.name,address.0.address")
         trxml_miner = TRXMLMiner(selectors)
-        trxml_miner.mine(data_generator, eval_filename)
+        trxml_miner.mine_and_save(self.trxmls_dir, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_address_file,
@@ -65,7 +65,7 @@ class TrxmlMinerTestCases(TestCase):
         eval_filename = os.path.join(self.test_dir, 'from_mxml.csv')
         selectors = TRXMLSelectors.from_selector_string("experienceitem.*.experience,experienceitem.*.experienceorgplace")
         trxml_miner = TRXMLMiner(selectors)
-        trxml_miner.mine(data_generator, eval_filename)
+        trxml_miner.mine_and_save(self.trxmls_dir, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_exp_file,

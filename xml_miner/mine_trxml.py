@@ -1,8 +1,6 @@
 '''the trxml selector script'''
 
-from os.path import isfile, isdir
 from argparse import ArgumentParser
-from .data_utils import DataLoader
 from .selectors import TRXMLSelectors
 from .miner import TRXMLMiner
 from . import LOGGER
@@ -35,19 +33,6 @@ def get_args():
                         type=str, default=None)
 
     return parser.parse_args()
-
-
-def _load_data(args):
-    if isdir(args.source):
-        LOGGER.info("reading trxml documents from dir %s", args.source)
-        data = DataLoader.load_from_dir(args.source)
-    elif isfile(args.source):
-        LOGGER.info("reading mtrxml document %s", args.source)
-        data = DataLoader.load_from_mtrxml(args.source)
-    else:
-        raise TypeError("could not determine source type, please check")
-    return data
-
 
 def _read_selectors(args):
     if args.selector:

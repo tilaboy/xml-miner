@@ -23,11 +23,10 @@ class XmlMinerTestCases(TestCase):
 
     def test_xml_select_from_folder(self):
         """select all values from all xmls from a given director"""
-        data_generator = DataLoader.load_from_dir(self.xmls_dir)
         eval_filename = os.path.join(self.test_dir, 'from_dir.csv')
         selectors = XMLSelectors(["name"])
         xml_miner = XMLMiner(selectors)
-        xml_miner.mine(data_generator, eval_filename)
+        xml_miner.mine_and_save(self.xmls_dir, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_file,
@@ -36,11 +35,10 @@ class XmlMinerTestCases(TestCase):
 
     def test_xml_select_from_mxml(self):
         """select all values from all xmls from a given mxml file"""
-        data_generator = DataLoader.load_from_mxml(self.mxml_file)
         eval_filename = os.path.join(self.test_dir, 'from_mxml.csv')
         selectors = XMLSelectors(["name"])
         xml_miner = XMLMiner(selectors)
-        xml_miner.mine(data_generator, eval_filename)
+        xml_miner.mine_and_save(self.mxml_file, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_file,
@@ -49,11 +47,10 @@ class XmlMinerTestCases(TestCase):
 
     def test_xml_multi_select_from_mxml(self):
         """select multiple fields from all xmls from a given mxml file"""
-        data_generator = DataLoader.load_from_mxml(self.mxml_file)
         eval_filename = os.path.join(self.test_dir, 'from_mxml.csv')
         selectors = XMLSelectors(["name", "address"])
         xml_miner = XMLMiner(selectors, with_field_name=True)
-        xml_miner.mine(data_generator, eval_filename)
+        xml_miner.mine_and_save(self.mxml_file, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_address_file,
