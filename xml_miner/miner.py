@@ -114,13 +114,15 @@ class XMLMiner(CommonMiner):
         for doc in data.data_generator:
             try:
                 xml_obj = TKXML.from_string(doc)
+                selected = self.selectors.select_xml_fields(xml_obj)
             except ET.ParseError:
-                LOGGER.warning("WARNING: could not parse, skip file:\n%s", doc)
+                LOGGER.warning("Can not parse, skip file:\n%s", doc)
+                continue
+            except AttributeError:
+                LOGGER.warning("Failed to select, skip file:\n%s", doc)
                 continue
 
             self.num_docs += 1
-
-            selected = self.selectors.select_xml_fields(xml_obj)
             for field, values in selected.items():
                 for value in values:
                     self._print_record(writer, xml_obj.filename, value, field)
@@ -174,14 +176,15 @@ class TRXMLMiner(CommonMiner):
         for doc in data.data_generator:
             try:
                 trxml_obj = TKTRXML.from_string(doc)
+                selected_values = self.selectors.select_trxml_fields(trxml_obj)
             except ET.ParseError:
-                LOGGER.warning(
-                    "WARNING: could not parse trxml, skip file:\n%s", doc)
+                LOGGER.warning("Can not parse trxml, skip file:\n%s", doc)
+                continue
+            except AttributeError:
+                LOGGER.warning("Failed to select, skip file:\n%s", doc)
                 continue
 
             self.num_docs += 1
-            selected_values = self.selectors.select_trxml_fields(trxml_obj)
-
             if self.selectors.trxml_selector_type \
                     == TRXML_SELECTOR_TYPE['MULTIPLE']:
                 for item_index in selected_values:
