@@ -34,6 +34,7 @@ def get_args():
 
     return parser.parse_args()
 
+
 def _read_selectors(args):
     if args.selector:
         selectors = TRXMLSelectors.from_selector_string(args.selector)
@@ -49,7 +50,6 @@ def _read_selectors(args):
 def main():
     '''apply selectors to trxml files'''
     args = get_args()
-    data = _load_data(args)
     selectors = _read_selectors(args)
     LOGGER.info(
         "select '%s' and write results to '%s'",
@@ -57,7 +57,7 @@ def main():
         args.output_file
     )
     trxml_miner = TRXMLMiner(selectors)
-    trxml_miner.mine(data, args.output_file)
+    trxml_miner.mine(args.source, args.output_file)
 
 
 if __name__ == "__main__":

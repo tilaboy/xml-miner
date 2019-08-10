@@ -18,6 +18,7 @@ def _normalize_string(line: str) -> str:
         line = line.replace('\t', "    ")
     return line
 
+
 class CommonMiner:
     '''
     CommonMiner:
@@ -161,7 +162,9 @@ class XMLMiner(CommonMiner):
 
             self.num_docs += 1
             for field, values in selected.items():
-                yield {'file':xml_obj.filename, 'field':field, 'value': values}
+                yield {'file': xml_obj.filename,
+                       'field': field,
+                       'value': values}
 
     def mine_and_save(self,
                       source: str,
@@ -270,7 +273,6 @@ class TRXMLMiner(CommonMiner):
 
             self.num_docs += 1
             yield {'file': trxml_obj.filename, 'value': selected_values}
-
 
     def mine_and_save(self, source: str, output_file: str):
         """

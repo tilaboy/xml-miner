@@ -39,10 +39,10 @@ def get_args():
 
     return parser.parse_args()
 
+
 def main():
     '''apply selectors to xml files'''
     args = get_args()
-    data = _load_data(args)
     selectors = XMLSelectors.from_selector_string(args.selector)
     xml_miner = XMLMiner(selectors, args.with_field_name)
     LOGGER.info(
