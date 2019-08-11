@@ -1,4 +1,10 @@
+0.0.3 (2019-08-11)
+==================
+- expand miner.py module to generate matched phrases per doc
+
 0.0.2 (2019-08-09)
+==================
+
 - added support for CI
 
 
