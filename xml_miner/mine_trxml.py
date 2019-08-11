@@ -43,7 +43,7 @@ def main():
         trxml_miner.selectors.selector_string,
         args.output_file
     )
-    trxml_miner.mine(args.source, args.output_file)
+    trxml_miner.mine_and_save(args.source, args.output_file)
 
 
 if __name__ == "__main__":

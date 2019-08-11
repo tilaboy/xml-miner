@@ -48,11 +48,11 @@ def main():
         xml_miner.selectors.selector_string,
         args.output_file
     )
-    xml_miner.mine(args.source,
-                   args.output_file,
-                   args.query,
-                   args.as_user,
-                   args.as_pass)
+    xml_miner.mine_and_save(args.source,
+                            args.output_file,
+                            args.query,
+                            args.as_user,
+                            args.as_pass)
 
 
 if __name__ == "__main__":
