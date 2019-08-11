@@ -96,9 +96,9 @@ class XMLMiner(CommonMiner):
 
     def load_data(self,
                   source: str,
-                  query: str=None,
-                  as_user: str=None,
-                  as_pass: str=None):
+                  query: str = None,
+                  as_user: str = None,
+                  as_pass: str = None):
         """
         load the data into a data generator
 
@@ -146,9 +146,9 @@ class XMLMiner(CommonMiner):
 
     def mine(self,
              source: str,
-             query: str=None,
-             as_user: str=None,
-             as_pass: str=None):
+             query: str = None,
+             as_user: str = None,
+             as_pass: str = None):
         """
         iterate the input data (xml obj), apply selector on each xml, and
         yield the selected values
@@ -179,9 +179,9 @@ class XMLMiner(CommonMiner):
     def mine_and_save(self,
                       source: str,
                       output_file: str,
-                      query: str=None,
-                      as_user: str=None,
-                      as_pass: str=None):
+                      query: str = None,
+                      as_user: str = None,
+                      as_pass: str = None):
 
         """
         iterate the selected values and save/print to ouput
@@ -268,7 +268,10 @@ class TRXMLMiner(CommonMiner):
             raise TypeError("could not determine source type, please check")
         return data
 
-    def read_selectors(self, selector: str, itemgroup: str='', fields: str=''):
+    def read_selectors(self,
+                       selector: str,
+                       itemgroup: str = '',
+                       fields: str = ''):
         """
         read selector strings and construct selector object
 
