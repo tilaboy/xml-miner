@@ -25,7 +25,7 @@ class CommonMiner:
         output:
             None
         '''
-        self.selectors = self.read_selectors(selectors)
+        self.selectors = selectors
         self.selector_string = self.selectors.selector_string
         self._init_counter()
 
@@ -66,10 +66,9 @@ class XMLMiner(CommonMiner):
             selectors (XMLSelectors): see xml_selector.py
             with_field_name: add a column to show the field_name of
             extracted value
-        output:
-            None
         '''
-        super().__init__(selectors)
+        selector_obj=self.read_selectors(selectors)
+        super().__init__(selector_obj)
         self.with_field_name = with_field_name
 
     def _print_header(self, writer) -> List[str]:
@@ -217,6 +216,16 @@ class TRXMLMiner(CommonMiner):
     - iterate over the trxml files and select values
     - output selected values to a file, and print summary
     '''
+
+    def __init__(self, selectors, itemgroup=None, fields=None):
+        '''
+        params:
+            selectors (string): input selectors
+            itemgroup (string): input ItemGroup
+            fields (string): input fields
+        '''
+        selector_obj=self.read_selectors(selectors, itemgroup, fields)
+        super().__init__(selector_obj)
 
     def _print_header(self, writer) -> List[str]:
         if self.selectors.trxml_selector_type == \
