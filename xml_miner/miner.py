@@ -67,7 +67,7 @@ class XMLMiner(CommonMiner):
             with_field_name: add a column to show the field_name of
             extracted value
         '''
-        selector_obj=self.read_selectors(selectors)
+        selector_obj = self.read_selectors(selectors)
         super().__init__(selector_obj)
         self.with_field_name = with_field_name
 
@@ -224,7 +224,7 @@ class TRXMLMiner(CommonMiner):
             itemgroup (string): input ItemGroup
             fields (string): input fields
         '''
-        selector_obj=self.read_selectors(selectors, itemgroup, fields)
+        selector_obj = self.read_selectors(selectors, itemgroup, fields)
         super().__init__(selector_obj)
 
     def _print_header(self, writer) -> List[str]:
