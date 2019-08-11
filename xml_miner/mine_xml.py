@@ -1,7 +1,6 @@
 '''the xml selector script'''
 
 from argparse import ArgumentParser
-from .selectors import XMLSelectors
 from .miner import XMLMiner
 from . import LOGGER
 
@@ -43,11 +42,10 @@ def get_args():
 def main():
     '''apply selectors to xml files'''
     args = get_args()
-    selectors = XMLSelectors.from_selector_string(args.selector)
-    xml_miner = XMLMiner(selectors, args.with_field_name)
+    xml_miner = XMLMiner(args.selectors, args.with_field_name)
     LOGGER.info(
         "select '%s' and write results to '%s'",
-        selectors.selector_string,
+        xml_miner.selectors.selector_string,
         args.output_file
     )
     xml_miner.mine(args.source,

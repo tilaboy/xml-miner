@@ -1,7 +1,6 @@
 '''the trxml selector script'''
 
 from argparse import ArgumentParser
-from .selectors import TRXMLSelectors
 from .miner import TRXMLMiner
 from . import LOGGER
 
@@ -35,28 +34,15 @@ def get_args():
     return parser.parse_args()
 
 
-def _read_selectors(args):
-    if args.selector:
-        selectors = TRXMLSelectors.from_selector_string(args.selector)
-    elif args.itemgroup and args.fields:
-        selectors = TRXMLSelectors.from_itemgroup_and_fields(args.itemgroup,
-                                                             args.fields)
-    else:
-        raise RuntimeError('''need to set arguments selectors,
-        or itemgroup and fields''')
-    return selectors
-
-
 def main():
     '''apply selectors to trxml files'''
     args = get_args()
-    selectors = _read_selectors(args)
+    trxml_miner = TRXMLMiner(args.selector, args.itemgroup, args.fields)
     LOGGER.info(
         "select '%s' and write results to '%s'",
-        selectors.selector_string,
+        trxml_miner.selectors.selector_string,
         args.output_file
     )
-    trxml_miner = TRXMLMiner(selectors)
     trxml_miner.mine(args.source, args.output_file)
 
 

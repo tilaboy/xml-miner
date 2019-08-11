@@ -4,19 +4,8 @@ from os.path import isfile, isdir
 import xml.etree.ElementTree as ET
 from .data_utils import DataLoader, DataSaver
 from .xml import TKXML, TKTRXML
-from .selectors import TRXML_SELECTOR_TYPE
+from .selectors import TRXML_SELECTOR_TYPE, TRXMLSelectors, XMLSelectors
 from . import LOGGER
-
-
-def _normalize_string(line: str) -> str:
-    '''
-    normalization selected values:
-    - replace \n with __NEWLINE__
-    '''
-    if line:
-        line = line.replace('\n', "__NEWLINE__")
-        line = line.replace('\t', "    ")
-    return line
 
 
 class CommonMiner:
@@ -36,8 +25,8 @@ class CommonMiner:
         output:
             None
         '''
-        self.selectors = selectors
-        self.selector_string = selectors.selector_string
+        self.selectors = self.read_selectors(selectors)
+        self.selector_string = self.selectors.selector_string
         self._init_counter()
 
     def _init_counter(self):
@@ -51,6 +40,18 @@ class CommonMiner:
         if len(self.value_counter) > 1:
             for field in self.value_counter:
                 LOGGER.info("- found %d %s", self.value_counter[field], field)
+
+    @staticmethod
+    def normalize_string(line: str) -> str:
+        '''
+        normalization selected values:
+        - replace \n with '__NEWLINE__'
+        - replace \t with 4 space '    '
+        '''
+        if line:
+            line = line.replace('\n', "__NEWLINE__")
+            line = line.replace('\t', "    ")
+        return line
 
 
 class XMLMiner(CommonMiner):
@@ -84,7 +85,7 @@ class XMLMiner(CommonMiner):
                       filename: str,
                       value: str,
                       field: str) -> List[str]:
-        norm_value = _normalize_string(value)
+        norm_value = self.normalize_string(value)
         if norm_value:
             csv_row = [filename, norm_value]
             if self.with_field_name:
@@ -131,6 +132,19 @@ class XMLMiner(CommonMiner):
             raise TypeError("could not determine source type, please check")
         return data
 
+    def read_selectors(self, selector: str):
+        """
+        read selector strings and construct selectors object
+
+        params:
+            - selector: input selector strings
+
+        output:
+            - selectors: XMLSelectors object
+        """
+
+        return XMLSelectors.from_selector_string(selector)
+
     def mine(self,
              source: str,
              query: str=None,
@@ -161,10 +175,7 @@ class XMLMiner(CommonMiner):
                 continue
 
             self.num_docs += 1
-            for field, values in selected.items():
-                yield {'file': xml_obj.filename,
-                       'field': field,
-                       'value': values}
+            yield {'file': xml_obj.filename, 'values': selected}
 
     def mine_and_save(self,
                       source: str,
@@ -189,11 +200,12 @@ class XMLMiner(CommonMiner):
         self._init_counter()
         self._print_header(writer)
         for selected in self.mine(source, query, as_user, as_pass):
-            for value in selected['value']:
-                self._print_record(writer,
-                                   selected['file'],
-                                   value,
-                                   selected['field'])
+            for field, values in selected['values'].items():
+                for value in values:
+                    self._print_record(writer,
+                                       selected['file'],
+                                       value,
+                                       field)
 
         self._print_summary()
         writer.close_stream()
@@ -220,7 +232,7 @@ class TRXMLMiner(CommonMiner):
     def _normalize_record_values(self, values) -> List[str]:
         norm_values = []
         for field_name in values:
-            norm_value = _normalize_string(values[field_name])
+            norm_value = self.normalize_string(values[field_name])
             norm_values.append(norm_value)
             if norm_value:
                 self.num_values += 1
@@ -247,6 +259,29 @@ class TRXMLMiner(CommonMiner):
             raise TypeError("could not determine source type, please check")
         return data
 
+    def read_selectors(self, selector: str, itemgroup: str='', fields: str=''):
+        """
+        read selector strings and construct selector object
+
+        params:
+            - selector: input selector strings
+            - itemgroup: input itemgroup strings
+            - fields: input fields strings
+
+        output:
+            - selectors: TRXMLSelectors object
+        """
+
+        if selector:
+            selectors = TRXMLSelectors.from_selector_string(selector)
+        elif itemgroup and fields:
+            selectors = TRXMLSelectors.from_itemgroup_and_fields(itemgroup,
+                                                                 fields)
+        else:
+            raise RuntimeError('''need to set arguments selectors,
+            or itemgroup and fields''')
+        return selectors
+
     def mine(self, source):
         """
         iterate the input data (trxml obj), apply selector on each trxml,
@@ -263,7 +298,7 @@ class TRXMLMiner(CommonMiner):
         for doc in data.data_generator:
             try:
                 trxml_obj = TKTRXML.from_string(doc)
-                selected_values = self.selectors.select_trxml_fields(trxml_obj)
+                selected = self.selectors.select_trxml_fields(trxml_obj)
             except ET.ParseError:
                 LOGGER.warning("Can not parse trxml, skip file:\n%s", doc)
                 continue
@@ -272,7 +307,7 @@ class TRXMLMiner(CommonMiner):
                 continue
 
             self.num_docs += 1
-            yield {'file': trxml_obj.filename, 'value': selected_values}
+            yield {'file': trxml_obj.filename, 'values': selected}
 
     def mine_and_save(self, source: str, output_file: str):
         """
@@ -291,16 +326,16 @@ class TRXMLMiner(CommonMiner):
 
             if self.selectors.trxml_selector_type \
                     == TRXML_SELECTOR_TYPE['MULTIPLE']:
-                for item_index in selected_values['value']:
+                for item_index in selected_values['values']:
                     norm_values = self._normalize_record_values(
-                        selected_values['value'][item_index])
+                        selected_values['values'][item_index])
                     writer.store(
                                  [selected_values['file'], item_index]
                                  + norm_values
                                 )
             else:
                 norm_values = self._normalize_record_values(
-                        selected_values['value'])
+                        selected_values['values'])
                 writer.store([selected_values['file']] + norm_values)
 
         self._print_summary()

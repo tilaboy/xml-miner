@@ -24,10 +24,8 @@ class TrxmlMinerTestCases(TestCase):
 
     def test_trxml_select_from_folder(self):
         """select all values from all trxmls from a given directory"""
-        data_generator = DataLoader.load_from_dir(self.trxmls_dir)
         eval_filename = os.path.join(self.test_dir, 'from_dir.csv')
-        selectors = TRXMLSelectors.from_selector_string("name.0.name")
-        trxml_miner = TRXMLMiner(selectors)
+        trxml_miner = TRXMLMiner("name.0.name")
         trxml_miner.mine_and_save(self.trxmls_dir, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
@@ -36,11 +34,9 @@ class TrxmlMinerTestCases(TestCase):
 
     def test_trxml_select_from_mxml(self):
         """select all values from all xmls from a given mtrxml file"""
-        data_generator = DataLoader.load_from_mtrxml(self.mtrxml_file)
         eval_filename = os.path.join(self.test_dir, 'from_mxml.csv')
-        selectors = TRXMLSelectors.from_selector_string("name.0.name")
-        trxml_miner = TRXMLMiner(selectors)
-        trxml_miner.mine_and_save(self.trxmls_dir, eval_filename)
+        trxml_miner = TRXMLMiner("name.0.name")
+        trxml_miner.mine_and_save(self.mtrxml_file, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_file,
@@ -48,11 +44,9 @@ class TrxmlMinerTestCases(TestCase):
 
     def test_multi_selectors_singleton(self):
         """select all values from all xmls from a given mtrxml file"""
-        data_generator = DataLoader.load_from_mtrxml(self.mtrxml_file)
         eval_filename = os.path.join(self.test_dir, 'from_mxml.csv')
-        selectors = TRXMLSelectors.from_selector_string("name.0.name,address.0.address")
-        trxml_miner = TRXMLMiner(selectors)
-        trxml_miner.mine_and_save(self.trxmls_dir, eval_filename)
+        trxml_miner = TRXMLMiner("name.0.name,address.0.address")
+        trxml_miner.mine_and_save(self.mtrxml_file, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_name_address_file,
@@ -61,11 +55,9 @@ class TrxmlMinerTestCases(TestCase):
 
     def test_multi_selectors_multi_items(self):
         """select all values from all xmls from a given mtrxml file"""
-        data_generator = DataLoader.load_from_mtrxml(self.mtrxml_file)
         eval_filename = os.path.join(self.test_dir, 'from_mxml.csv')
-        selectors = TRXMLSelectors.from_selector_string("experienceitem.*.experience,experienceitem.*.experienceorgplace")
-        trxml_miner = TRXMLMiner(selectors)
-        trxml_miner.mine_and_save(self.trxmls_dir, eval_filename)
+        trxml_miner = TRXMLMiner("experienceitem.*.experience,experienceitem.*.experienceorgplace")
+        trxml_miner.mine_and_save(self.mtrxml_file, eval_filename)
         self.assertTrue(filecmp.cmp(
             eval_filename,
             self.gold_exp_file,
