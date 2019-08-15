@@ -22,8 +22,13 @@ def load_from_file(input_dir, files):
         if not isfile(filepath):
             LOGGER.warning("Warning: %s is not a file, skip", filepath)
         else:
-            with open(filepath, 'rt') as file:
-                yield file.read()
+            with open(filepath, 'rt', encoding='utf-8') as file:
+                try:
+                    content = file.read()
+                    yield content
+                except UnicodeDecodeError:
+                    LOGGER.info("can not decode %s", filename)
+                    continue
 
 
 def load_from_string(xml_string, header_line):
@@ -92,7 +97,7 @@ class DataLoader:
         output:
             DataLoader object: a iterator object to generate xml string
         """
-        with open(input_mxml, 'rt') as file:
+        with open(input_mxml, 'rt', encoding='utf-8') as file:
             xml_string = file.read()
         return cls(data_generator=load_from_string(xml_string, cls.XML_HEADER))
 
@@ -107,7 +112,7 @@ class DataLoader:
         output:
             DataLoader object: a iterator object to generate xml string
         """
-        with open(input_mxml, 'rt') as file:
+        with open(input_mxml, 'rt', encoding='utf-8') as file:
             xml_string = file.read()
         return cls(data_generator=load_from_string(xml_string,
                                                    cls.TRXML_HEADER))
