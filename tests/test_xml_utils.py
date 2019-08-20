@@ -1,7 +1,6 @@
 """unit tests to select values from xml files or strings"""
 import os
 from unittest import TestCase
-from unittest import TestResult
 from xml_miner.selectors.selector_utils import valid_field_name, selector_attribute
 from xml_miner.selectors.selector_utils import SELECTOR_TYPE, TRXML_SELECTOR_TYPE
 from xml_miner.selectors import TRXMLSelectors, XMLSelectors
