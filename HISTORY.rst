@@ -1,3 +1,7 @@
+0.0.4 (2019-09-11)
+==================
+- bug fix: reading always use utf8, and not continue reading if failed on encoding of one document
+
 0.0.3 (2019-08-11)
 ==================
 - expand miner.py module to generate matched phrases per doc
