@@ -82,7 +82,10 @@ class TRXMLSelector(XMLSelector):
         get the value of the field where the selector matches
         '''
         element = self.select_field_with_xpath(xml_tree)
-        value = element.text if element is not None else ''
+        if element is not None and element.text is not None:
+            value = element.text
+        else:
+            value = ''
         return value
 
     def field_value_from_item(self, item) -> str:
