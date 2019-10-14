@@ -1,3 +1,8 @@
+
+0.0.5 (2019-10-14)
+==================
+- bug fix: ElementTree xpath find will return a None if value is an empty string, restore to empty string
+
 0.0.4 (2019-09-11)
 ==================
 - bug fix: reading always use utf8, and not continue reading if failed on encoding of one document
