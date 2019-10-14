@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 NAME = "xml_miner"
-VERSION = os.environ.get("XML_MINER_VERSION", '0.0.4')
+VERSION = os.environ.get("XML_MINER_VERSION", '0.0.5')
 
 with open('README.rst', "r") as readme_file:
     readme = readme_file.read()
