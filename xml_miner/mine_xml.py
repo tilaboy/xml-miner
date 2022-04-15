@@ -17,7 +17,7 @@ def get_args():
                         3. the host:port of a running annotation server''',
                         type=str, required=True)
 
-    parser.add_argument('--selector', help='selector or selector',
+    parser.add_argument('--selectors', help='selector or selectors',
                         type=str, required=True)
 
     parser.add_argument('--output_file', help='outputfile of selected values',
